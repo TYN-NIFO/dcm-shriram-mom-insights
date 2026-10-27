@@ -1,0 +1,36 @@
+# Secrets
+.env
+.env.*
+!.env.example
+web/.env.local
+
+# Environments, local tools and models
+.venv/
+.venv-*/
+tools/
+__pycache__/
+*.pyc
+web/node_modules/
+web/.next/
+web/tsconfig.tsbuildinfo
+
+# Client data and anything derived from it (confidential: never commit)
+rag/data/
+rag/results/
+ocr_eval/pages/
+ocr_eval/outputs/
+ocr_eval/gold/
+ocr_eval/results/
+api/logs/
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.tif
+*.tiff
+*.xls
+*.xlsx
+*.log
+
+# Synthetic test drafts are fine to keep
+!api/test_drafts/**/*.pdf

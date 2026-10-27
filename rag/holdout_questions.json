@@ -1,0 +1,436 @@
+[
+ {
+  "q": "Which audit firms are on the internal audit panel for 2024-25?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.6"
+   ]
+  ],
+  "evidence": [
+   "Grant Thornton"
+  ],
+  "answer": "For FY 2024-25 the Board approved a panel of EY, KPMG and Grant Thornton (including their member firms), or any other firm that any of the MDs may decide, as Internal Auditors, on the Audit Committee's recommendation.",
+  "source_quote": "RESOLVED THAT the appointment of panel of the following firms (including any of its member firms) or any other firm as may be decided by any of the MDs severally, as Internal Auditors of the Company for the financial year 2024-25, as recommended by the Audit Committee, be and is hereby approved: -EY -KPMG -Grant Thornton"
+ },
+ {
+  "q": "J.K. Jain wanted to step down as a trustee of the employees' welfare trust. Who took his place?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2021-05-04",
+    "11"
+   ]
+  ],
+  "evidence": [
+   "DSCL Employees Welfare Trust"
+  ],
+  "answer": "Mr. Amit Agarwal was appointed Trustee of the DSCL Employees Welfare Trust to fill the vacancy caused by Mr. J.K. Jain's resignation (the other trustee being Mr. Parveen Kumar Aggarwal).",
+  "source_quote": "Resolved that Mr. Amit Agarwal be and is hereby appointed as Trustee to fill the vacancy caused by the resignation of Mr. J.K. Jain as Trustee."
+ },
+ {
+  "q": "Who does our new head of special projects report to?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2025-01-18",
+    "6.2"
+   ]
+  ],
+  "evidence": [
+   "reporting to Mr. Vikram"
+  ],
+  "answer": "Mr. Anoop Singh, President-Special Projects (made Senior Management Personnel w.e.f. 18 January 2025), reports to Mr. Vikram S. Shriram, Vice Chairman & Managing Director.",
+  "source_quote": "He would be responsible for exploring new business projects working closely with Senior Leadership Team and would be reporting to Mr. Vikram S. Shriram, Vice Chairman & Managing Director."
+ },
+ {
+  "q": "What is the ceiling on our derivative exposure with any single bank or dealer?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.1.1A"
+   ]
+  ],
+  "evidence": [
+   "USD 400 mn"
+  ],
+  "answer": "The Company may transact with Dealers up to a maximum exposure limit of USD 400 mn (or equivalent) notional per Dealer; the Board Finance Committee approves individual Dealer limits within that.",
+  "source_quote": "RESOLVED FURTHER THAT the Company is allowed to transact with Dealers to a maximum exposure limit of USD 400 mn. (or equivalent) notional per Dealer."
+ },
+ {
+  "q": "For 2023-24, how much commission did non-executive directors earn for each meeting they attended?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.3"
+   ]
+  ],
+  "evidence": [
+   "Rs. 2.25 Lakhs"
+  ],
+  "answer": "Rs. 2.25 lakh per Board and per Board Committee meeting attended (Rs. 153 lakh in all), on top of a fixed Rs. 25 lakh per NED; total NED commission for FY 2023-24 was Rs. 348 lakh.",
+  "source_quote": "Rs. 2.25 Lakhs per Board and per Board Committee(s) Meetings attended by NEDs during F.Y.2023-24 keeping in view their contribution in the meetings | 153"
+ },
+ {
+  "q": "When SEBI brought in the new share-based employee benefit rules, the employee benefits trust deed had to be amended. Who was authorised to sign the amending deed for the Company?",
+  "type": "lookup",
+  "gold": [
+   [
+    "2015-08-02",
+    "17"
+   ]
+  ],
+  "evidence": [
+   "Dr. N.J. Singh"
+  ],
+  "answer": "Dr. N.J. Singh, Whole Time Director (EHS), was authorised to sign and execute the Supplementary Trust Deed (No 3) to the DCM Shriram Employees Benefits Trust Deed dated Feb 10, 2010, and to get it registered.",
+  "source_quote": "Dr. N.J. Singh, Whole Time Director (EHS) be and is hereby authorized to sign and execute the said deed on behalf of the Company"
+ },
+ {
+  "q": "What changes did the Board recommend in May 2024 to the pay ceilings of the promoter directors' children?",
+  "type": "multi",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.6"
+   ]
+  ],
+  "evidence": [
+   "Varun A. Shriram"
+  ],
+  "answer": "Subject to shareholder approval at the 35th AGM, w.e.f. 1 April 2024: Mr. Anand A. Shriram from Rs. 12.50 lakh to Rs. 25 lakh per month; Mr. Pranav V. Shriram from Rs. 7.50 lakh to Rs. 15 lakh per month; Mr. Varun A. Shriram from Rs. 5 lakh to Rs. 10 lakh per month; and Ms. Tara A. Shriram up to Rs. 4.25 lakh per month.",
+  "source_quote": "revision of maximum limit of remuneration of Mr. Anand A Shriram, son of Mr. Ajay S. Shriram and brother of Mr. Aditya A. Shriram, upto Rs.25 Lakh per month w.e.f. April 1, 2024 ... revision of in maximum limit of remuneration payable to Mr. Pranav V. Shriram, up to Rs. 15 Lakhs per month w.e.f April 1, 2024 ... revision of in maximum limit of remuneration payable to Mr. Varun A. Shriram, up to Rs. 10 Lakhs per month w.e.f April 1, 2024 ... maximum limit of remuneration payable to Ms. Tara A. Shriram, daughter of Mr. Ajit S. Shriram be made up to Rs.4.25 Lakh per month w.e.f. April 1, 2024"
+ },
+ {
+  "q": "Who was authorised to sign the monthly urea subsidy bills to FICC for 2021-22, and who for 2024-25?",
+  "type": "multi",
+  "gold": [
+   [
+    "2021-05-04",
+    "10"
+   ],
+   [
+    "2024-05-06",
+    "3.7"
+   ]
+  ],
+  "evidence": [
+   "FICC"
+  ],
+  "answer": "For FY 2021-22: Mr. Amit Agarwal (CFO), Mr. Vinoo Mehta, Mr. Sanyog Jain, Mr. A.K. Jain and Mr. Aditya Jha, severally. For FY 2024-25: Mr. Vinoo Mehta, Mr. Amit Agarwal (ED & Group CFO), Mr. K.K. Sharma (WTD-EHS), Mr. Sanyog Jain and Mr. Aditya Jha, severally.",
+  "source_quote": "Mr. Amit Agarwal, CFO, Mr. Vinoo Mehta, President & Business Head - Fertilisers & Cement, Mr. Sanyog Jain, Sr. Vice President & Dy. CFO, Mr. A.K. Jain, Jt. Vice President and Mr. Aditya Jha, Jt. Vice President, be and are hereby severally authorized to sign monthly bills and other communications to be submitted to FICC ... for the Financial Year 2021-22. / Mr. Vinoo Mehta, Executive Director & Resident Head- Kota, Mr. Amit Agarwal, ED & Group CFO, Mr.K.K. Sharma, Whole Time Director-EHS, Mr. Sanyog Jain, Sr. Vice President & Deputy CFO and Mr. Aditya Jha, Vice President be and are hereby severally authorized to sign monthly bills ... for the financial year 2024-25."
+ },
+ {
+  "q": "What did the whole-time directors get as commission and pay rise for 2020-21?",
+  "type": "multi",
+  "gold": [
+   [
+    "2021-05-04",
+    "6"
+   ]
+  ],
+  "evidence": [
+   "Rs.0.325"
+  ],
+  "answer": "Mr. K.K. Kaul: commission Rs. 75 lakh and basic salary increase of Rs. 0.90 lakh per month. Mr. K.K. Sharma (WTD-EHS): commission Rs. 7.5 lakh, basic salary increase of Rs. 0.325 lakh per month and a performance reward of Rs. 5.00 lakh; revisions effective 1.4.2021.",
+  "source_quote": "| Mr. K.K. Kaul, Whole Time Director | Rs.75 | Rs.0.90 | -- | | Mr. K.K. Sharma, Whole Time Director (EHS) | Rs.7.5 | Rs.0.325 | 5.00 |"
+ },
+ {
+  "q": "Which year-end provisions and write-offs did the Board sign off for the 2020-21 accounts?",
+  "type": "multi",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.2"
+   ]
+  ],
+  "evidence": [
+   "Compensated absences"
+  ],
+  "answer": "In Rs. crore: incremental actuarial provisions of 6.65 for gratuity, 4.76 for compensated absences and 4.76 for long service award; a reversal of (-) 5.05 of impairment on assets held for sale; 37.83 provision for doubtful debts, loans, advances and deposits; and 1.37 bad debts and advances written off.",
+  "source_quote": "- Gratuity | 6.65 | ... - Compensated absences | 4.76 | ... - Long Service Award | 4.76 | ... impairment of assets held for sale based on valuations report | (-) 5.05 | ... Provision for doubtful debts, loans and advances, other debts and deposits | 37.83 | ... Bad debts and advances written off | 1.37 |"
+ },
+ {
+  "q": "Have there been any workplace injuries reported to the Board? List each one.",
+  "type": "list",
+  "kind": "list",
+  "gold": [
+   [
+    "2024-10-30",
+    "2.5"
+   ],
+   [
+    "2025-01-18",
+    "4.5"
+   ]
+  ],
+  "evidence": [
+   "contract worker"
+  ],
+  "answer": "Two: (1) on 25 September 2024 a contract worker's left ankle was injured when a screw conveyor started during a trial run in the Calcium Carbide plant under annual shutdown; (2) on 10 December 2024 at Hariawan sugar mill a civil contract worker slipped while crossing a drain under construction in the bagasse yard and was injured.",
+  "source_quote": [
+   "On September 25, 2024, an accident occurred in the Calcium Carbide plant that was under annual shutdown.",
+   "At Hariawan Sugar mill, on 10.12.2024, civil construction work of RCC drain was being carried out in the Bagasse Yard area. A civil contract worker while crossing the drain accidentally slipped and got injured."
+  ]
+ },
+ {
+  "q": "Which firms have been appointed as our secretarial auditors, and for which years?",
+  "type": "list",
+  "kind": "list",
+  "gold": [
+   [
+    "2019-07-23",
+    "2.2"
+   ],
+   [
+    "2020-07-21",
+    "3.6"
+   ],
+   [
+    "2021-07-20",
+    "2.5"
+   ],
+   [
+    "2022-07-19",
+    "3.4"
+   ],
+   [
+    "2023-07-24",
+    "3.4"
+   ],
+   [
+    "2024-07-23",
+    "4.4"
+   ],
+   [
+    "2025-05-05",
+    "3.7"
+   ]
+  ],
+  "evidence": [
+   "Secretarial Auditor"
+  ],
+  "answer": "M/s Sanjay Grover & Associates for FY 2019-20, 2020-21, 2021-22 and 2022-23; M/s RMG & Associates for FY 2023-24 and FY 2024-25, and RMG & Associates again (May 2025) for 5 consecutive years at Rs. 2.50 lakh plus taxes and expenses.",
+  "source_quote": [
+   "M/s. Sanjay Grover & Associates, Company Secretaries, New Delhi, were appointed as Secretarial Auditor of the Company for the financial year 2019-20.",
+   "M/s. Sanjay Grover & Associates, Company Secretaries, New Delhi, were appointed as Secretarial Auditor of the Company for the financial year 2020-21.",
+   "M/s. Sanjay Grover & Associates, Company Secretaries, New Delhi, were appointed as Secretarial Auditor of the Company for the financial year 2021-22.",
+   "M/s. Sanjay Grover & Associates, Company Secretaries, New Delhi, were appointed as Secretarial Auditor of the Company for the financial year 2022-23",
+   "M/s RMG & Associates, Company Secretaries, New Delhi (Firm Registration no. P2001DE016100), were appointed as Secretarial Auditors of the Company for the financial year 2023-24.",
+   "be and are hereby appointed as Secretarial Auditors of the Company for the financial year 2024-25.",
+   "appointment of M/s. RMG & Associates, Company Secretaries (FRN: P2001DE016100) as Secretarial Auditors for a period of 5 (five) consecutive years on a remuneration of Rs. 2.50 lakhs excluding taxes"
+  ]
+ },
+ {
+  "q": "On what dates has the Board fixed the AGM, according to the minutes?",
+  "type": "list",
+  "kind": "list",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(XI)"
+   ],
+   [
+    "2024-05-06",
+    "3.5.8"
+   ]
+  ],
+  "evidence": [
+   "Annual General Meeting"
+  ],
+  "answer": "The 32nd AGM was fixed for Tuesday, 20 July 2021 and the 35th AGM for Tuesday, July 16, 2024, both through Video Conferencing/OAVM.",
+  "source_quote": [
+   "It was decided to convene 32nd Annual General Meeting of the Company on Tuesday, the 20th July, 2021 through Video Conferencing/Other Audio-Visual Means (OAVM).",
+   "It was decided to convene the ensuing 35th Annual General Meeting (AGM) of the Company on Tuesday, July 16, 2024 through Video Conferencing/Other Audio-Visual Means (OAVM)."
+  ]
+ },
+ {
+  "q": "What has our mandatory CSR spend come to in each year covered by the minutes?",
+  "type": "list",
+  "kind": "list",
+  "gold": [
+   [
+    "2021-05-04",
+    "8(II)"
+   ],
+   [
+    "2024-05-06",
+    "3.3.1"
+   ],
+   [
+    "2024-05-06",
+    "3.3.2"
+   ]
+  ],
+  "evidence": [
+   "obligation"
+  ],
+  "answer": "FY 2021-22: Rs. 20.11 crore; FY 2023-24: Rs. 2,564.24 lakh (Rs. 2,363.37 lakh spent by 31 March 2024, Rs. 200.87 lakh unspent moved to a separate account for ongoing projects); FY 2024-25: Rs. 2,433 lakh.",
+  "source_quote": [
+   "The Board noted the statutory obligation for the CSR spend for the Year 2021-22 amounting to Rs.20.11 Crores.",
+   "against the statutory CSR obligation of Rs.2,564.24 lakh for the financial year 2023-24, Rs.2,363.37 lakh has been spent by March 31, 2024",
+   "the statutory obligation of CSR spend for new financial year 2024-25, works out to Rs.2,433 lakhs."
+  ]
+ },
+ {
+  "q": "What was the combined commission paid to the three managing directors for 2020-21?",
+  "type": "total",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.6"
+   ]
+  ],
+  "evidence": [
+   "commission amounts"
+  ],
+  "answer": "Rs. 1,625 lakh in total: Rs. 550 lakh (Ajay S. Shriram, CMD) + Rs. 545 lakh (Vikram S. Shriram, VCMD) + Rs. 530 lakh (Ajit S. Shriram, JMD).",
+  "source_quote": "| Mr. Ajay S. Shriram, CMD | 550 | 24.30 | | Mr. Vikram S. Shriram, VCMD | 545 | 24.00 | | Mr. Ajit S. Shriram, JMD | 530 | 20.00 |"
+ },
+ {
+  "q": "How many acres of land in all did the chemicals business get approval to buy in Gujarat in 2021?",
+  "type": "total",
+  "gold": [
+   [
+    "2021-05-04",
+    "13"
+   ]
+  ],
+  "evidence": [
+   "Plot Size (Acre)"
+  ],
+  "answer": "278 acres: 11 acres at Jhagadia, 12 acres at Manjusar and 255 acres at Dahej-Sayakha, at an estimated cost of about Rs. 367 crore.",
+  "source_quote": "| Plot Size (Acre) | 11 | 12 | 255 |"
+ },
+ {
+  "q": "What is Pradeep Dinodia's DIN?",
+  "type": "exact",
+  "gold": [
+   [
+    "2024-05-06",
+    "4.2"
+   ]
+  ],
+  "evidence": [
+   "00027995"
+  ],
+  "answer": "Mr. Pradeep Dinodia's DIN is 00027995 (cited when the Board approved his appointment as Non-Executive Non-Independent Director from the conclusion of the 35th AGM).",
+  "source_quote": "the Board be and hereby approves the appointment of Mr. Pradeep Dinodia (DIN 00027995), as Non-Executive Non-Independent Director of the Company"
+ },
+ {
+  "q": "Who is the scrutinizer with CP No. 22944, and what was he appointed for?",
+  "type": "exact",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.5"
+   ]
+  ],
+  "evidence": [
+   "22944"
+  ],
+  "answer": "Mr. Kapil Dev Taneja (Membership No. F4019), Partner, M/s Sanjay Grover & Associates, appointed Scrutinizer for the postal ballot on Mr. Tejpreet Singh Chopra's appointment as Independent Director, with Mr. Neeraj Arora as alternate.",
+  "source_quote": "to appoint Mr. Kapil Dev Taneja (CP no. 22944, M No. F-4019), Partner M/s Sanjay Grover & Associates, Practicing Company Secretaries, as Scrutinizer"
+ },
+ {
+  "q": "What was approved under item 3.5.4 at the May 2024 meeting?",
+  "type": "exact",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.5.4"
+   ]
+  ],
+  "evidence": [
+   "BRSR"
+  ],
+  "answer": "Item 3.5.4 was the Business Responsibility and Sustainability Report (BRSR) for FY 2023-24; the Board approved the draft and authorised Mr. K.K. Sharma, WTD (EHS), to make any further changes needed.",
+  "source_quote": "After discussions, the Board approved the draft BRSR and authorized Mr. K.K. Sharma WTD (EHS), to make any further necessary changes/modification in the same, as may be required."
+ },
+ {
+  "q": "When did the new 850 TPD caustic soda unit start up?",
+  "type": "date",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.1"
+   ]
+  ],
+  "evidence": [
+   "commissioned on 3rd May"
+  ],
+  "answer": "It was commissioned on 3rd May 2024 (the 600 TPD flaker was expected in Q2 FY25; total cost estimated at Rs. 933 crore vs the approved Rs. 903 crore).",
+  "source_quote": "It was also informed that 850 TPD Caustic Soda project has been commissioned on 3rd May 2024; and 600 TPD Caustic Flaker plant is expected to be commissioned in Q2 FY 25."
+ },
+ {
+  "q": "In 2015, by when was the power generation expansion at the Ajbapur sugar plant expected to be up and running?",
+  "type": "date",
+  "gold": [
+   [
+    "2015-08-02",
+    "19(I)"
+   ]
+  ],
+  "evidence": [
+   "September 2016"
+  ],
+  "answer": "By September 2016, subject to environment clearance, which was expected by the end of September 2015.",
+  "source_quote": "The Board also noted that the Project was expected to be commissioned by September 2016, subject to Environment clearance as above."
+ },
+ {
+  "q": "Did we ever decide to open a representative office in China? When?",
+  "type": "synopsis",
+  "gold": [
+   [
+    "2007-07-31",
+    "15"
+   ]
+  ],
+  "evidence": [],
+  "answer": "Yes. The Board approved the proposal to set up a representative office of the Company in China at its meeting of 31 July 2007 (resolution no. 15).",
+  "source_quote": "the proposal to set up a representative office of the Company in China be and is hereby approved."
+ },
+ {
+  "q": "Has the Board ever been told about employees breaching the insider trading code? How many, and what did they do?",
+  "type": "synopsis",
+  "gold": [
+   [
+    "2019-05-01",
+    "5"
+   ]
+  ],
+  "evidence": [],
+  "answer": "Yes. On 1 May 2019 (resolution no. 5) the Board was informed that 8 employees had violated the Code and SEBI insider regulations by doing contra trades in the Company's shares within six months, which is prohibited.",
+  "source_quote": "The Board was informed that 8 no of employees have been found in violation of the said Code and SEBI Insider Regulations having done the contra trades within a period of six months (which is prohibited)"
+ },
+ {
+  "q": "Has the Board ever ordered a forensic audit of any of our units?",
+  "type": "negative",
+  "kind": "negative",
+  "gold": [],
+  "evidence": [],
+  "answer": "The minutes and the Synopsis record no forensic audit being ordered or discussed.",
+  "source_quote": ""
+ },
+ {
+  "q": "Have we approved any investment in electric vehicles or battery manufacturing?",
+  "type": "negative",
+  "kind": "negative",
+  "gold": [],
+  "evidence": [],
+  "answer": "No such investment or proposal appears in the minutes or the Synopsis.",
+  "source_quote": ""
+ },
+ {
+  "q": "Did the company give money to the PM CARES Fund during COVID?",
+  "type": "negative",
+  "kind": "negative",
+  "gold": [],
+  "evidence": [],
+  "answer": "The sources do not record any contribution to the PM CARES Fund (the 2021 minutes mention CSR spending on COVID-19 relief, but no PM CARES contribution).",
+  "source_quote": ""
+ }
+]

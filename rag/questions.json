@@ -1,0 +1,788 @@
+[
+ {
+  "q": "What final dividend did the Board recommend in May 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.4"
+   ]
+  ],
+  "evidence": [
+   "Rs.2.60"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "What final dividend was recommended for the financial year 2020-21?",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.5"
+   ]
+  ],
+  "evidence": [
+   "Re.3.80"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Was an interim dividend declared in October 2024 and how much?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.6"
+   ]
+  ],
+  "evidence": [
+   "interim dividend"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Did the Board declare a second interim dividend in January 2025?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.7"
+   ]
+  ],
+  "evidence": [
+   "2nd Interim Dividend"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Who was appointed Company Secretary and Compliance Officer in January 2025?",
+  "gold": [
+   [
+    "2025-01-18",
+    "3"
+   ]
+  ],
+  "evidence": [
+   "Deepak Gupta"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "When was Mr. Tejpreet S. Chopra appointed as an Independent Director?",
+  "gold": [
+   [
+    "2025-01-18",
+    "2"
+   ]
+  ],
+  "evidence": [
+   "Tejpreet S. Chopra"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "What limit was approved for issuing non-convertible debentures on private placement?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.8"
+   ]
+  ],
+  "evidence": [
+   "Non-Convertible Debentures"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Did the Board approve a political contribution or donation to an electoral trust?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.9"
+   ]
+  ],
+  "evidence": [
+   "Electoral Trust"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "What capex was approved for renewable energy at the Kota complex?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.4.1"
+   ]
+  ],
+  "evidence": [
+   "Renewable Energy"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Approval for the Fenesta aluminium extrusion and surface finish project",
+  "gold": [
+   [
+    "2024-10-30",
+    "5.2"
+   ]
+  ],
+  "evidence": [
+   "Aluminium Extrusion"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Investment in a back pressure turbine for the chemicals business",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.8"
+   ]
+  ],
+  "evidence": [
+   "Back Pressure Turbine"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Re-appointment of Mr. K.K. Kaul as Whole Time Director",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(V)"
+   ]
+  ],
+  "evidence": [
+   "K.K. Kaul"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "What was the revised maximum remuneration limit for Mr. Anand A. Shriram in 2021?",
+  "gold": [
+   [
+    "2021-05-04",
+    "3"
+   ]
+  ],
+  "evidence": [
+   "12.50"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Capital commitment charges payable to Narmada Clean Tech",
+  "gold": [
+   [
+    "2015-08-02",
+    "16"
+   ]
+  ],
+  "evidence": [
+   "Narmada Clean Tech"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Who were appointed as internal auditors in 2015?",
+  "gold": [
+   [
+    "2015-08-02",
+    "18"
+   ]
+  ],
+  "evidence": [
+   "Internal Auditors"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "What powers were delegated to Shri Amit Parmar?",
+  "gold": [
+   [
+    "2015-08-02",
+    "14D"
+   ]
+  ],
+  "evidence": [
+   "Amit Parmar"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Who are the members of the reconstituted Board Audit Committee in May 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "4.4.1"
+   ]
+  ],
+  "evidence": [
+   "Board Audit Committee"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Delegation of authority for sale of land in 2021",
+  "gold": [
+   [
+    "2021-05-04",
+    "10D"
+   ]
+  ],
+  "evidence": [
+   "Sale of Land"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "When does Ms. Ramni Nirula's second term as Independent Director end?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.3"
+   ]
+  ],
+  "evidence": [
+   "Ramni Nirula"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Did the Company Secretary resign in 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "5"
+   ]
+  ],
+  "evidence": [
+   "resign"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Adoption of a new set of Memorandum and Articles of Association",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.10"
+   ]
+  ],
+  "evidence": [
+   "Articles of Association"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "Application under the Customs MOOWR scheme",
+  "gold": [
+   [
+    "2025-01-18",
+    "6.3"
+   ]
+  ],
+  "evidence": [
+   "MOOWR"
+  ],
+  "type": "lookup"
+ },
+ {
+  "q": "List all dividends declared or recommended",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.5"
+   ],
+   [
+    "2024-05-06",
+    "3.4.4"
+   ],
+   [
+    "2024-10-30",
+    "3.6"
+   ],
+   [
+    "2025-01-18",
+    "5.7"
+   ]
+  ],
+  "evidence": [
+   "ividend"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "Which Independent Directors were appointed or re-appointed?",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(VI)"
+   ],
+   [
+    "2021-05-04",
+    "9(VII)"
+   ],
+   [
+    "2024-05-06",
+    "4.3"
+   ],
+   [
+    "2025-01-18",
+    "2"
+   ]
+  ],
+  "evidence": [
+   "Independent"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "What was resolution 3.4.4 of the Board meeting on 6 May 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.4"
+   ]
+  ],
+  "evidence": [
+   "Final Dividend"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "Which director has DIN 00866743?",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(VI)"
+   ]
+  ],
+  "evidence": [
+   "00866743"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "Whose re-appointment mentions DIN 10157483?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.5.6"
+   ]
+  ],
+  "evidence": [
+   "10157483"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "Which proposal had a project cost of Rs.331 crores?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.4.2"
+   ]
+  ],
+  "evidence": [
+   "331"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "What investment of Rs.242 crores was approved?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.8"
+   ]
+  ],
+  "evidence": [
+   "242"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "What was the Rs. 65 crore investment in the Fenesta business?",
+  "gold": [
+   [
+    "2025-01-18",
+    "6.5"
+   ]
+  ],
+  "evidence": [
+   "65 crore"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "How much NCD borrowing of Rs.1,651 crore was outstanding?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.8"
+   ]
+  ],
+  "evidence": [
+   "1,651"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "What was item 9(VIII) in the May 2021 Board meeting?",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(VIII)"
+   ]
+  ],
+  "evidence": [
+   "Sarita Garg"
+  ],
+  "type": "exact"
+ },
+ {
+  "q": "What delegation for taxation matters was approved in October 2024?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.1.2"
+   ]
+  ],
+  "evidence": [
+   "Taxation"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "What delegation for taxation matters was approved in May 2021?",
+  "gold": [
+   [
+    "2021-05-04",
+    "10C"
+   ]
+  ],
+  "evidence": [
+   "Taxation"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "What limits for investment of surplus funds were set in May 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "6.1"
+   ]
+  ],
+  "evidence": [
+   "Surplus Funds"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "What business plans were placed before the Board in May 2021?",
+  "gold": [
+   [
+    "2021-05-04",
+    "14"
+   ]
+  ],
+  "evidence": [
+   "Business Plans"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "What did the Board note about the auditors' report on the annual financial statements in 2021?",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.4"
+   ]
+  ],
+  "evidence": [
+   "Auditors"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "Who was appointed scrutinizer for the AGM in 2024?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.5.7"
+   ]
+  ],
+  "evidence": [
+   "Scrutinizer"
+  ],
+  "type": "date"
+ },
+ {
+  "q": "List all resolutions on investment of surplus funds",
+  "gold": [
+   [
+    "2021-05-04",
+    "12"
+   ],
+   [
+    "2024-05-06",
+    "6.1"
+   ],
+   [
+    "2024-10-30",
+    "3.1.1C"
+   ]
+  ],
+  "evidence": [
+   "urplus",
+   "Mutual Fund"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "List all delegations of authority for taxation matters",
+  "gold": [
+   [
+    "2021-05-04",
+    "10C"
+   ],
+   [
+    "2024-10-30",
+    "3.1.2"
+   ]
+  ],
+  "evidence": [
+   "Taxation"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "List all capex and investment proposals approved by the Board",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.8"
+   ],
+   [
+    "2024-10-30",
+    "3.4.1"
+   ],
+   [
+    "2024-10-30",
+    "3.4.2"
+   ],
+   [
+    "2024-10-30",
+    "5.2"
+   ],
+   [
+    "2025-01-18",
+    "6.5"
+   ]
+  ],
+  "evidence": [
+   "rore"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "List all re-appointments of directors liable to retire by rotation",
+  "gold": [
+   [
+    "2021-05-04",
+    "5"
+   ],
+   [
+    "2021-05-04",
+    "9(IV)"
+   ],
+   [
+    "2024-05-06",
+    "3.5.5"
+   ],
+   [
+    "2024-05-06",
+    "3.5.6"
+   ]
+  ],
+  "evidence": [
+   "rotation"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "List all reconstitutions of Board committees",
+  "gold": [
+   [
+    "2024-05-06",
+    "4.4.1"
+   ],
+   [
+    "2024-05-06",
+    "4.4.2"
+   ],
+   [
+    "2024-05-06",
+    "4.4.3"
+   ],
+   [
+    "2024-05-06",
+    "4.4.4"
+   ],
+   [
+    "2024-05-06",
+    "4.4.5"
+   ],
+   [
+    "2025-01-18",
+    "5.4"
+   ],
+   [
+    "2025-01-18",
+    "6.1"
+   ]
+  ],
+  "evidence": [
+   "onstitut",
+   "Committee"
+  ],
+  "kind": "list",
+  "type": "list"
+ },
+ {
+  "q": "When was the borrowing limit revised up to Rs.1500 crores?",
+  "gold": [
+   [
+    "2005-01-25",
+    "17"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "When was the authorised capital increased from 75 crores to 105 crores?",
+  "gold": [
+   [
+    "1998-05-01",
+    "16"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "When was the company converted into a public company?",
+  "gold": [
+   [
+    "1989-06-10",
+    "5"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "When did the Board alter the Articles for buy-back of shares?",
+  "gold": [
+   [
+    "1995-05-17",
+    "27"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "When was the acquisition of Hindusthan Speciality Chemicals approved?",
+  "gold": [
+   [
+    "2025-06-12",
+    "4"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "When was the status report on sub-division of shares and bonus issue noted?",
+  "gold": [
+   [
+    "2005-10-27",
+    "14"
+   ]
+  ],
+  "evidence": [],
+  "type": "synopsis"
+ },
+ {
+  "q": "Did the Board approve a merger with Tata Chemicals?",
+  "gold": [],
+  "evidence": [],
+  "kind": "negative",
+  "type": "negative"
+ },
+ {
+  "q": "Did the Board approve opening a manufacturing plant in Germany?",
+  "gold": [],
+  "evidence": [],
+  "kind": "negative",
+  "type": "negative"
+ },
+ {
+  "q": "What did the Board decide about investing in cryptocurrency?",
+  "gold": [],
+  "evidence": [],
+  "kind": "negative",
+  "type": "negative"
+ },
+ {
+  "q": "Did the Board approve a share buy-back in 2024?",
+  "gold": [],
+  "evidence": [],
+  "kind": "negative",
+  "type": "negative"
+ },
+ {
+  "q": "How did the final dividend per share change between 2021 and 2024?",
+  "gold": [
+   [
+    "2021-05-04",
+    "2.2.5"
+   ],
+   [
+    "2024-05-06",
+    "3.4.4"
+   ]
+  ],
+  "evidence": [
+   "ividend"
+  ],
+  "kind": "list",
+  "type": "cross"
+ },
+ {
+  "q": "Which Independent Directors' terms were completed in 2024 and 2025?",
+  "gold": [
+   [
+    "2024-05-06",
+    "4.1"
+   ],
+   [
+    "2025-01-18",
+    "5.3"
+   ]
+  ],
+  "evidence": [
+   "term"
+  ],
+  "kind": "list",
+  "type": "cross"
+ }
+]

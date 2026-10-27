@@ -1,0 +1,4 @@
+{"draft_board_agenda.txt": {"HDFC": ["conflict"], "Electoral": ["conflict"], "NCD": ["within_limit", "needs_review"],
+  "interim dividend": ["no_conflict", "no_limit_found"], "dealer": ["within_limit"], "2,500": ["changes_limit"],
+  "Ramni Nirula": ["conflict", "needs_review"]},
+ "draft_resolution_nbfc.docx": {"Bajaj": ["within_limit"], "authoris": ["within_limit", "no_conflict", "no_limit_found"]}}

@@ -1,0 +1,301 @@
+[
+ {
+  "q": "How much did shareholders get per share as the final payout for 2023-24?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.4"
+   ]
+  ],
+  "evidence": [
+   "2.60"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "What was the total dividend for the year in which the final payout was Rs 2.60 a share?",
+  "gold": [
+   [
+    "2024-05-06",
+    "3.4.4"
+   ]
+  ],
+  "evidence": [
+   "6.60"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "When did the Board approve an interim payout of 100 per cent of face value?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.6"
+   ]
+  ],
+  "evidence": [
+   "100%"
+  ],
+  "type": "lookup",
+  "hard": "number format"
+ },
+ {
+  "q": "Which payout was 180 per cent of face value?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.7"
+   ]
+  ],
+  "evidence": [
+   "180%"
+  ],
+  "type": "lookup",
+  "hard": "number format"
+ },
+ {
+  "q": "Who replaced the company secretary who quit after nine years?",
+  "gold": [
+   [
+    "2025-01-18",
+    "3"
+   ],
+   [
+    "2024-05-06",
+    "5"
+   ]
+  ],
+  "evidence": [
+   "Deepak Gupta",
+   "Swati"
+  ],
+  "type": "lookup",
+  "hard": "indirect"
+ },
+ {
+  "q": "Is Roshan Lal Tamak a member of the risk management committee?",
+  "gold": [
+   [
+    "2024-05-06",
+    "4.4.5"
+   ]
+  ],
+  "evidence": [
+   "Tamak"
+  ],
+  "type": "lookup",
+  "hard": "source spelling"
+ },
+ {
+  "q": "Which director has an interest in Hero Electronix?",
+  "gold": [
+   [
+    "2015-08-02",
+    "3"
+   ]
+  ],
+  "evidence": [
+   "Eectronix"
+  ],
+  "type": "lookup",
+  "hard": "source spelling"
+ },
+ {
+  "q": "How many acres of land were proposed for purchase at Hanumangarh?",
+  "gold": [
+   [
+    "2024-05-06",
+    "2.1"
+   ]
+  ],
+  "evidence": [
+   "13.37"
+  ],
+  "type": "lookup",
+  "hard": "table cell"
+ },
+ {
+  "q": "Who was made responsible under the weights and measures law in different states?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.1.3"
+   ]
+  ],
+  "evidence": [
+   "Legal Metrology"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "What happened to the petrol pump run by a franchisee in Punjab?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.9"
+   ]
+  ],
+  "evidence": [
+   "Ferozepur"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "When was the hydrogen peroxide plant commissioned and how is it running?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.5"
+   ],
+   [
+    "2025-01-18",
+    "5.6"
+   ]
+  ],
+  "evidence": [
+   "H2O2",
+   "H202"
+  ],
+  "type": "lookup",
+  "hard": "synonym"
+ },
+ {
+  "q": "Who acted as company secretary between the resignation and the new appointment?",
+  "gold": [
+   [
+    "2024-05-06",
+    "5"
+   ]
+  ],
+  "evidence": [
+   "Swati"
+  ],
+  "type": "lookup",
+  "hard": "indirect"
+ },
+ {
+  "q": "Which directors missed the May 2024 Board meeting?",
+  "gold": [
+   [
+    "2024-05-06",
+    "1"
+   ]
+  ],
+  "evidence": [
+   "Leave of absence"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "Were all directors present at the October 2024 meeting?",
+  "gold": [
+   [
+    "2024-10-30",
+    "header"
+   ]
+  ],
+  "evidence": [
+   "All the Directors were present"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "Who is authorised to sign the cost audit reports?",
+  "gold": [
+   [
+    "2015-08-02",
+    "10"
+   ]
+  ],
+  "evidence": [
+   "Cost Audit"
+  ],
+  "type": "lookup",
+  "hard": "paraphrase"
+ },
+ {
+  "q": "Who is the occupier of the Fenesta aluminium plant?",
+  "gold": [
+   [
+    "2025-01-18",
+    "6.4"
+   ]
+  ],
+  "evidence": [
+   "K.K. Sharma"
+  ],
+  "type": "lookup",
+  "hard": "lookup"
+ },
+ {
+  "q": "Who became trustees of the gratuity and superannuation funds of the seeds and research divisions?",
+  "gold": [
+   [
+    "2025-01-18",
+    "5.10"
+   ]
+  ],
+  "evidence": [
+   "Trustees"
+  ],
+  "type": "lookup",
+  "hard": "abbreviation"
+ },
+ {
+  "q": "What did the Board discuss about risks to the chemicals business?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.3"
+   ]
+  ],
+  "evidence": [
+   "Risk"
+  ],
+  "type": "lookup",
+  "hard": "vague"
+ },
+ {
+  "q": "When was the scrutiniser apointed for the 2021 AGM?",
+  "gold": [
+   [
+    "2021-05-04",
+    "9(X)"
+   ]
+  ],
+  "evidence": [
+   "Scrutinizer"
+  ],
+  "type": "lookup",
+  "hard": "typo"
+ },
+ {
+  "q": "How much was approved in total across the capex proposals at the October 2024 meeting?",
+  "gold": [
+   [
+    "2024-10-30",
+    "3.4.1"
+   ],
+   [
+    "2024-10-30",
+    "3.4.2"
+   ],
+   [
+    "2024-10-30",
+    "5.2"
+   ]
+  ],
+  "evidence": [
+   "rore"
+  ],
+  "type": "list",
+  "hard": "multi-item",
+  "kind": "list"
+ }
+]
