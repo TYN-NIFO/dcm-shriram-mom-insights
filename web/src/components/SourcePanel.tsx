@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ImageOff, Loader2, X, ZoomIn, ZoomOut } from "lucide-react";
-import { fetchPageImage, friendlyError } from "@/lib/api";
-import { citationText } from "@/lib/format";
-import type { Source } from "@/lib/types";
+import { ChevronLeft, ChevronRight, Download, FileSpreadsheet, ImageOff, Loader2, X, ZoomIn, ZoomOut } from "lucide-react";
+import { fetchPageImage, friendlyError, getRegisterSheet, resolveApiUrl } from "@/lib/api";
+import { citeLong } from "@/lib/format";
+import { fontVars } from "@/lib/fonts";
+import type { RegisterSheet, Source } from "@/lib/types";
 
 const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 3;
@@ -44,15 +45,12 @@ export default function SourcePanel({ source, onClose }: Props) {
       <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={onClose} aria-hidden />
       <aside
         aria-label="Source page viewer"
-        className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-zinc-200 bg-white shadow-xl lg:static lg:z-auto lg:w-[28rem] lg:max-w-none lg:shadow-none xl:w-[34rem] dark:border-zinc-800 dark:bg-zinc-900"
+        className={`${fontVars} font-ui fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-zinc-200 bg-white shadow-xl lg:static lg:z-auto lg:w-[28rem] lg:max-w-none lg:shadow-none xl:w-[34rem] dark:border-zinc-800 dark:bg-zinc-900`}
       >
         <div className="flex items-start gap-3 border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
-              Source
-            </p>
-            <p className="mt-0.5 text-sm font-medium">{citationText(source)}</p>
-            {source.company && <p className="text-xs text-zinc-500 dark:text-zinc-400">{source.company}</p>}
+            <p className="text-[15px] leading-6 font-semibold text-ink">{citeLong(source)}</p>
+            {source.company && <p className="text-[13px] text-note">{source.company}</p>}
           </div>
           <button
             ref={closeRef}
@@ -65,7 +63,9 @@ export default function SourcePanel({ source, onClose }: Props) {
           </button>
         </div>
 
-        {hasPages ? (
+        {source.source_type === "synopsis" && source.register_url ? (
+          <RegisterView url={source.register_url} />
+        ) : hasPages ? (
           <>
             <div className="flex items-center gap-1 border-b border-zinc-200 px-2 py-1.5 text-sm dark:border-zinc-800">
               <IconButton
@@ -115,7 +115,7 @@ export default function SourcePanel({ source, onClose }: Props) {
           <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
             <ImageOff className="size-8 text-zinc-300 dark:text-zinc-600" aria-hidden />
             {source.source_type === "synopsis"
-              ? "This source is an entry in the Synopsis of Minutes register. It has no scanned page."
+              ? "This answer was created before the register view was added. Ask the question again to open the entry in the Synopsis of Minutes workbook."
               : "No scanned page is available for this source."}
           </div>
         )}
@@ -192,6 +192,146 @@ function PageImage({ url, alt, zoom }: { url: string; alt: string; zoom: number 
           <span className="sr-only">Loading page image</span>
         </div>
       )}
+    </div>
+  );
+}
+
+const COLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const COL_WIDTH = [52, 78, 56, 92, 420, 120, 120, 120];
+
+/** The register entry shown as it is in DCM's Excel workbook: the real sheet, the cited row selected. */
+function RegisterView({ url }: { url: string }) {
+  const [state, setState] = useState<{ url: string; sheet?: RegisterSheet; error?: string }>({ url });
+  const citedRef = useRef<HTMLTableRowElement>(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    setState({ url });
+    getRegisterSheet(url, ctrl.signal)
+      .then((sheet) => setState({ url, sheet }))
+      .catch((e) => {
+        if (!ctrl.signal.aborted) setState({ url, error: friendlyError(e) });
+      });
+    return () => ctrl.abort();
+  }, [url]);
+
+  useEffect(() => {
+    citedRef.current?.scrollIntoView({ block: "center" });
+  }, [state.sheet]);
+
+  if (state.error)
+    return (
+      <p role="alert" className="p-6 text-center text-sm text-red-700">
+        {state.error}
+      </p>
+    );
+  if (!state.sheet)
+    return (
+      <div className="flex flex-1 items-center justify-center text-zinc-400" role="status">
+        <Loader2 className="size-6 animate-spin" aria-hidden />
+        <span className="sr-only">Loading the register</span>
+      </div>
+    );
+
+  const { sheet } = state;
+  const ncols = Math.max(1, ...sheet.rows.map((r) => r.length));
+  const cited = sheet.rows[sheet.cited_row - 1] ?? [];
+  const descCol = cited.reduce((best, v, i) => (v.length > (cited[best] ?? "").length ? i : best), 0);
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col bg-white" style={{ fontFamily: "Calibri, 'Segoe UI', Arial, sans-serif" }}>
+      {/* title bar */}
+      <div className="flex items-center gap-2 bg-[#217346] px-3 py-1.5 text-white">
+        <FileSpreadsheet className="size-4 shrink-0" aria-hidden />
+        <span className="min-w-0 flex-1 truncate text-[12px]">{sheet.workbook}</span>
+        <span className="shrink-0 rounded-sm bg-white/15 px-1.5 py-0.5 text-[10px] tracking-wide uppercase">Read-only</span>
+        <a
+          href={resolveApiUrl("/register/file")}
+          download
+          className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-white px-2 py-0.5 text-[12px] font-medium text-[#217346] hover:bg-zinc-100"
+        >
+          <Download className="size-3.5" aria-hidden /> Open in Excel
+        </a>
+      </div>
+      {/* name box + formula bar */}
+      <div className="flex items-stretch border-b border-[#d4d4d4] bg-[#f3f3f3] text-[12px]">
+        <span className="w-16 shrink-0 border-r border-[#d4d4d4] bg-white px-2 py-1 text-zinc-700 tabular-nums">
+          {COLS[descCol] ?? "A"}
+          {sheet.cited_row}
+        </span>
+        <span className="shrink-0 border-r border-[#d4d4d4] px-2 py-1 font-serif text-zinc-500 italic">fx</span>
+        <span className="min-w-0 flex-1 truncate bg-white px-2 py-1 text-zinc-800" title={cited[descCol]}>
+          {cited[descCol]}
+        </span>
+      </div>
+      {/* grid */}
+      <div className="min-h-0 flex-1 overflow-auto bg-white">
+        <table className="border-separate border-spacing-0 text-[12px] text-zinc-900" style={{ tableLayout: "fixed" }}>
+          <colgroup>
+            <col style={{ width: 36 }} />
+            {Array.from({ length: ncols }, (_, c) => (
+              <col key={c} style={{ width: COL_WIDTH[c] ?? 120 }} />
+            ))}
+          </colgroup>
+          <thead className="sticky top-0 z-10">
+            <tr>
+              <th className="border-r border-b border-[#d4d4d4] bg-[#e6e6e6]" />
+              {Array.from({ length: ncols }, (_, c) => (
+                <th
+                  key={c}
+                  scope="col"
+                  className={`border-r border-b border-[#d4d4d4] py-0.5 text-center font-normal ${
+                    c === descCol ? "bg-[#d2e9dc] text-[#217346]" : "bg-[#efefef] text-zinc-600"
+                  }`}
+                >
+                  {COLS[c]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sheet.rows.map((r, i) => {
+              const n = i + 1;
+              const isCited = n === sheet.cited_row;
+              return (
+                <tr key={n} ref={isCited ? citedRef : undefined} aria-current={isCited ? "true" : undefined}>
+                  <th
+                    scope="row"
+                    className={`sticky left-0 border-r border-b border-[#d4d4d4] px-1 text-center align-top font-normal tabular-nums ${
+                      isCited ? "bg-[#d2e9dc] font-semibold text-[#217346]" : "bg-[#efefef] text-zinc-500"
+                    }`}
+                  >
+                    {n}
+                  </th>
+                  {Array.from({ length: ncols }, (_, c) => {
+                    const v = r[c] ?? "";
+                    return (
+                      <td
+                        key={c}
+                        className={`border-r border-b px-1.5 py-0.5 align-top ${
+                          c === descCol ? "whitespace-normal" : "truncate whitespace-nowrap"
+                        } ${isCited ? "border-b-[#217346] bg-[#e8f3ec]" : "border-[#e1e1e1]"} ${n <= 2 ? "font-semibold" : ""}`}
+                        title={v.length > 20 ? v : undefined}
+                      >
+                        {v.startsWith("#Index!") ? "" : v}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {/* sheet tab */}
+      <div className="flex items-center gap-2 border-t border-[#d4d4d4] bg-[#f3f3f3] px-2 text-[12px]">
+        <span className="-mt-px border-x border-b-2 border-x-[#d4d4d4] border-b-[#217346] bg-white px-3 py-1 font-semibold text-[#217346]">
+          {sheet.sheet}
+        </span>
+        <span className="ml-auto py-1 text-zinc-500">
+          Row {sheet.cited_row} of {sheet.rows.length} · {sheet.sheet_count} sheets in the workbook
+        </span>
+      </div>
     </div>
   );
 }

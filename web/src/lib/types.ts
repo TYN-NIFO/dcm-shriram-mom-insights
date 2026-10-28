@@ -35,6 +35,19 @@ export interface Source {
   pages: number[];
   page_image_urls: string[];
   topic?: string;
+  /** Register entries only: the sheet of the Synopsis of Minutes that contains this row (GET). */
+  register_url?: string;
+}
+
+/** One sheet of DCM's Synopsis of Minutes workbook, cell values as in the file (GET /register). */
+export interface RegisterSheet {
+  workbook: string; // file name
+  sheet: string;
+  sheet_count: number;
+  company: string;
+  /** 1-based Excel row of the cited entry */
+  cited_row: number;
+  rows: string[][];
 }
 
 export interface ConversationSummary {

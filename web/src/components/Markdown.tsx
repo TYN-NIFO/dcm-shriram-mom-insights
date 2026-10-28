@@ -6,15 +6,30 @@ import { Fragment, type ReactNode } from "react";
  * model output can't inject markup.
  */
 
-function inline(text: string, keyPrefix: string): ReactNode[] {
+type Cite = (n: number, key: string) => ReactNode;
+
+function inline(text: string, keyPrefix: string, cite?: Cite): ReactNode[] {
+  // "[S4], [S5]" -> "[S4][S5]": adjacent markers sit together without the comma
+  if (cite) text = text.replace(/\]\s*,\s*\[(?=S?\d)/g, "][").replace(/\s+(\[S?\d+(?:\s*,\s*S?\d+)*\])/g, "$1");
   const out: ReactNode[] = [];
-  const re = /\*\*([^*]+?)\*\*|\*([^*\s][^*]*?)\*/g;
+  const re = /\*\*([^*]+?)\*\*|\*([^*\s][^*]*?)\*|\[(S?\d+(?:\s*,\s*S?\d+)*)\]/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    if (m[1] !== undefined)
+    if (m[3] !== undefined) {
+      const nums = m[3].split(",").map((x) => Number(x.trim().replace(/^S/, "")));
+      out.push(
+        cite ? (
+          <sup key={`${keyPrefix}-c${i++}`} className="ml-0.5 whitespace-nowrap">
+            {nums.map((n, k) => cite(n, `${keyPrefix}-c${i}-${k}`))}
+          </sup>
+        ) : (
+          m[0]
+        ),
+      );
+    } else if (m[1] !== undefined)
       out.push(
         <strong key={`${keyPrefix}-b${i++}`} className="font-semibold">
           {m[1]}
@@ -72,7 +87,7 @@ function parse(src: string): Block[] {
   return blocks;
 }
 
-export default function Markdown({ text, className = "" }: { text: string; className?: string }) {
+export default function Markdown({ text, className = "", cite }: { text: string; className?: string; cite?: Cite }) {
   const blocks = parse(text);
   return (
     <div className={`space-y-3 leading-relaxed ${className}`}>
@@ -83,12 +98,12 @@ export default function Markdown({ text, className = "" }: { text: string; class
               {b.lines.map((l, li) => (
                 <Fragment key={li}>
                   {li > 0 && <br />}
-                  {inline(l, `${bi}-${li}`)}
+                  {inline(l, `${bi}-${li}`, cite)}
                 </Fragment>
               ))}
             </p>
           );
-        const items = b.items.map((it, ii) => <li key={ii}>{inline(it, `${bi}-${ii}`)}</li>);
+        const items = b.items.map((it, ii) => <li key={ii}>{inline(it, `${bi}-${ii}`, cite)}</li>);
         return b.kind === "ul" ? (
           <ul key={bi} className="list-disc space-y-1 pl-5 marker:text-zinc-400">
             {items}

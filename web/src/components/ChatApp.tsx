@@ -9,7 +9,6 @@ import SourcePanel from "./SourcePanel";
 import TopBar, { ScopeStrip } from "./TopBar";
 import {
   ApiError,
-  IS_MOCK,
   deleteConversation,
   friendlyError,
   getConversation,
@@ -18,13 +17,6 @@ import {
   streamChat,
 } from "@/lib/api";
 import type { ChatFilters, ChatMessage, ConversationSummary, Me, Source } from "@/lib/types";
-
-const EXAMPLES = [
-  "What dividend did the Board recommend last year?",
-  "When did the Audit Committee last review the internal audit plan?",
-  "List the borrowing limits approved by the Board since 2022.",
-  "Who was appointed as an independent director, and when?",
-];
 
 let localSeq = 0;
 const localId = (p: string) => `${p}_local_${Date.now().toString(36)}_${(localSeq++).toString(36)}`;
@@ -212,9 +204,21 @@ export default function ChatApp() {
 
   // ---- render ----------------------------------------------------------
   const empty = !convLoading && !convError && messages.length === 0;
+  const composer = (hero: boolean) => (
+    <Composer
+      scopes={me?.scopes ?? []}
+      filters={filters}
+      onFiltersChange={setFilters}
+      busy={busy}
+      onSend={send}
+      onStop={stop}
+      focusKey={activeId}
+      hero={hero}
+    />
+  );
 
   return (
-    <div className="flex h-dvh overflow-hidden">
+    <div className="flex h-dvh overflow-hidden bg-zinc-950 md:p-3">
       <a
         href="#question"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow"
@@ -233,14 +237,14 @@ export default function ChatApp() {
         onDelete={removeConversation}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <TopBar me={me} onOpenSidebar={() => setSidebarOpen(true)} />
+      <div className="flex min-w-0 flex-1 flex-col bg-[#f7f7f7] md:rounded-3xl dark:bg-zinc-900">
+        <TopBar me={me} onOpenSidebar={() => setSidebarOpen(true)} title="Ask the minutes" />
         <ScopeStrip me={me} />
 
         {meError && (
           <div
             role="alert"
-            className="flex shrink-0 items-start gap-2 border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200"
+            className="mx-3 mb-2 flex shrink-0 items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900 sm:mx-6 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200"
           >
             <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden />
             <span className="flex-1">
@@ -272,37 +276,35 @@ export default function ChatApp() {
                     {convError}
                   </p>
                 )}
-                {empty && <EmptyState disabled={busy} onPick={send} />}
-                <div className="space-y-5" aria-live="polite" aria-relevant="additions">
+                {empty && (
+                  <EmptyState name={me?.name} disabled={busy} onPick={send}>
+                    <div id="question">{composer(true)}</div>
+                  </EmptyState>
+                )}
+                <div className="space-y-6" aria-live="polite" aria-relevant="additions">
                   {messages.map((m) => (
-                    <MessageView
-                      key={m.id}
-                      message={m}
-                      selectedSourceId={openSource?.id ?? null}
-                      onOpenSource={setOpenSource}
-                    />
+                    <div key={m.id} className="animate-rise">
+                      <MessageView
+                        message={m}
+                        selectedSourceId={openSource?.id ?? null}
+                        onOpenSource={setOpenSource}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div id="question" className="shrink-0 border-t border-zinc-200 bg-zinc-50/95 dark:border-zinc-800 dark:bg-zinc-950/95">
-              <div className="mx-auto w-full max-w-3xl px-3 pt-2 pb-3 sm:px-6">
-                <Composer
-                  scopes={me?.scopes ?? []}
-                  filters={filters}
-                  onFiltersChange={setFilters}
-                  busy={busy}
-                  onSend={send}
-                  onStop={stop}
-                  focusKey={activeId}
-                />
-                <p className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
-                  Answers come only from the minutes. Always check the cited page.
-                  {IS_MOCK && <span className="ml-1 text-amber-700 dark:text-amber-400">(Demo data)</span>}
-                </p>
+            {!empty && (
+              <div id="question" className="shrink-0 bg-gradient-to-t from-[#f7f7f7] via-[#f7f7f7] to-transparent dark:from-zinc-900 dark:via-zinc-900">
+                <div className="mx-auto w-full max-w-3xl px-3 pt-1 pb-3 sm:px-6">
+                  {composer(false)}
+                  <p className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+                    Answers come only from the minutes. Always check the cited page.
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </main>
 
           {openSource && <SourcePanel source={openSource} onClose={closeSource} />}
@@ -312,24 +314,50 @@ export default function ChatApp() {
   );
 }
 
-function EmptyState({ onPick, disabled }: { onPick: (q: string) => void; disabled: boolean }) {
+function EmptyState({
+  name,
+  onPick,
+  disabled,
+  children,
+}: {
+  name?: string;
+  onPick: (q: string) => void;
+  disabled: boolean;
+  children: React.ReactNode;
+}) {
+  const first = name?.split(" ")[0];
   return (
-    <div className="py-8 text-center sm:py-14">
-      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Ask about the Board and Committee minutes</h2>
-      <p className="mx-auto mt-2 max-w-lg text-sm text-zinc-600 dark:text-zinc-400">
-        Answers are drawn only from the minutes you have access to, and each one cites the meeting, item and
-        minute-book page so you can check the original scan.
-      </p>
-      <ul className="mx-auto mt-8 grid max-w-2xl gap-2 text-left sm:grid-cols-2" aria-label="Example questions">
-        {EXAMPLES.map((q) => (
-          <li key={q}>
+    <div className="py-6 sm:py-14">
+      <div className="text-center">
+        <h2 className="animate-rise text-3xl font-semibold tracking-tight sm:text-5xl">
+          {first ? `Hello, ${first}` : "Hello"}
+        </h2>
+        <p
+          className="animate-rise text-shimmer mt-1 text-2xl font-semibold tracking-tight sm:text-4xl"
+          style={{ animationDelay: "90ms" }}
+        >
+          Let’s explore your Board minutes.
+        </p>
+        <p className="animate-rise mx-auto mt-4 max-w-xl text-sm text-zinc-500 sm:text-[15px] dark:text-zinc-400" style={{ animationDelay: "180ms" }}>
+          Ask in plain language. Every answer cites the meeting, item and minute-book page, so you can check the signed original.
+        </p>
+      </div>
+
+      <div className="animate-rise mt-8" style={{ animationDelay: "260ms" }}>
+        {children}
+      </div>
+
+      <ul className="mt-5 grid gap-3 sm:grid-cols-3" aria-label="Example questions">
+        {TOPICS.map(({ title, text, question }, i) => (
+          <li key={title} className="animate-rise" style={{ animationDelay: `${340 + i * 80}ms` }}>
             <button
               type="button"
               disabled={disabled}
-              onClick={() => onPick(q)}
-              className="h-full w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 hover:border-accent-300 hover:bg-accent-50/60 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-accent-500/60 dark:hover:bg-zinc-800"
+              onClick={() => onPick(question)}
+              className="group flex h-full w-full flex-col items-start rounded-2xl border border-transparent bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-gold-400 hover:shadow-lg disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800/70 dark:hover:border-accent-400/60 dark:hover:bg-zinc-800"
             >
-              {q}
+              <span className="text-[15px] font-semibold">{title}</span>
+              <span className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">{text}</span>
             </button>
           </li>
         ))}
@@ -337,3 +365,21 @@ function EmptyState({ onPick, disabled }: { onPick: (q: string) => void; disable
     </div>
   );
 }
+
+const TOPICS = [
+  {
+    title: "Dividends & capital",
+    text: "What the Board recommended, the record dates and the amounts.",
+    question: "What dividend did the Board recommend last year?",
+  },
+  {
+    title: "People & governance",
+    text: "Appointments, committee changes and who chairs what.",
+    question: "Who was appointed as an independent director, and when?",
+  },
+  {
+    title: "Limits & approvals",
+    text: "Borrowing limits, capex and investment approvals over time.",
+    question: "List the borrowing limits approved by the Board since 2022.",
+  },
+];

@@ -34,3 +34,8 @@ api/logs/
 
 # Synthetic test drafts are fine to keep
 !api/test_drafts/**/*.pdf
+
+# Web app assets (icons, images) are not client data
+!web/public/**
+!web/src/app/*.png
+!web/src/app/*.ico

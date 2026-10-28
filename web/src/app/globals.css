@@ -1,20 +1,39 @@
 @import "tailwindcss";
 
-/* Neutral greys + one accent (calm teal). Light/dark follow prefers-color-scheme. */
+/* Always light: `dark:` styles only apply under an explicit .dark class (never set), not the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Neutral greys + sage green-grey accent + gold highlight. Light theme only. */
 @theme {
   --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --color-accent-50: #eef7f6;
-  --color-accent-100: #d5ebe8;
-  --color-accent-300: #7fc1b8;
-  --color-accent-400: #4fa79c;
-  --color-accent-500: #2f8a80;
-  --color-accent-600: #22706a;
-  --color-accent-700: #1d5a56;
-  --color-accent-900: #123735;
+  --color-accent-50: #f1f6f5;
+  --color-accent-100: #dce9e6;
+  --color-accent-300: #b5d1cc;
+  --color-accent-400: #8fb3ac;
+  --color-accent-500: #6f958d;
+  --color-accent-600: #4f726b;
+  --color-accent-700: #3b5a54;
+  --color-accent-900: #1f2f2c;
+  --color-gold-300: #e4ff6e;
+  --color-gold-400: #ccff00;
+  --color-gold-500: #9fc400;
+
+  /* Minute-book palette for the source and check views. */
+  --font-ui: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-text: "Source Serif 4", Georgia, serif;
+  --color-ink: #1c2430;
+  --color-folio: #f4f5f7;
+  --color-rule: #d9dde3;
+  --color-minute: #1f4e8c;
+  --color-minute-50: #eef3fa;
+  --color-breach: #a4161a;
+  --color-revision: #9a5b00;
+  --color-clear: #2e6b3f;
+  --color-note: #5c6675;
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 html,
@@ -23,12 +42,12 @@ body {
 }
 
 body {
-  @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+  @apply bg-[#f7f7f7] text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
 }
 
 /* Visible focus for keyboard users everywhere. */
 :focus-visible {
-  outline: 2px solid var(--color-accent-500);
+  outline: 2px solid var(--color-gold-500);
   outline-offset: 2px;
 }
 
@@ -58,4 +77,225 @@ body {
   to {
     visibility: hidden;
   }
+}
+
+/* Soft backdrop for the landing state. */
+.hero-glow {
+  background:
+    radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--color-accent-400) 18%, transparent), transparent 70%),
+    radial-gradient(30% 30% at 85% 10%, color-mix(in oklab, var(--color-gold-400) 16%, transparent), transparent 70%);
+}
+
+/* ---- Motion ---- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Grey headline line with a light sweep passing over it. */
+.text-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--color-zinc-400) 35%,
+    var(--color-accent-500) 50%,
+    var(--color-zinc-400) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+    shimmer 4.5s ease-in-out 1s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  60%,
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* ---- Scrollbar ----
+   A thin sage "rail" with a thicker, rounded grey-green thumb that darkens on hover / drag.
+   Firefox gets the same colours (it cannot vary the width). `.scroll-dark` is for black surfaces. */
+:root {
+  --sb-track: #c5dcd7;
+  --sb-thumb: #a3b5b1;
+  --sb-thumb-hover: #8aa09b;
+  --sb-thumb-active: #6f8a84;
+}
+
+.scroll-dark {
+  --sb-track: rgb(255 255 255 / 0.14);
+  --sb-thumb: rgb(255 255 255 / 0.38);
+  --sb-thumb-hover: rgb(255 255 255 / 0.55);
+  --sb-thumb-active: var(--color-gold-400);
+}
+
+/* Firefox only: Chrome / Edge ignore ::-webkit-scrollbar when these standard properties are set. */
+@supports (-moz-appearance: none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+/* Rail: 4px line centred in the 14px gutter. */
+::-webkit-scrollbar-track {
+  background: var(--sb-track);
+  background-clip: padding-box;
+  border: 5px solid transparent;
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+/* Thumb: 10px wide, grows to 12px when hovered. */
+::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  min-height: 48px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+  background-clip: padding-box;
+  border-width: 1px;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--sb-thumb-active);
+  background-clip: padding-box;
+  border-width: 1px;
+}
+
+/* No arrow buttons. */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Scroll panes: smooth, and no scroll-chaining into the page behind. */
+.overflow-y-auto {
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* ---- Rotating outline (chat input) ----
+   A lime highlight travels around the border on hover / focus. */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.spin-border {
+  padding: 2px;
+  background: #e4e4e7;
+  transition: background-color 0.2s;
+}
+
+.spin-border:hover,
+.spin-border:focus-within {
+  background: conic-gradient(
+    from var(--angle),
+    #e4e4e7 0%,
+    #e4e4e7 55%,
+    var(--color-gold-400) 78%,
+    var(--color-gold-500) 90%,
+    #e4e4e7 100%
+  );
+  animation: spin-angle 2.6s linear infinite;
+}
+
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ---- Theme: DCM blue (default is green). Toggled by <html data-theme="blue">. ---- */
+:root[data-theme="blue"] {
+  --color-gold-300: #4db3dc;
+  --color-gold-400: #008fcb;
+  --color-gold-500: #0077ab;
+  --color-accent-50: #eef8fd;
+  --color-accent-100: #d6eefa;
+  --color-accent-300: #8ccfeb;
+  --color-accent-400: #4db3dc;
+  --color-accent-500: #1a9bd2;
+  --color-accent-600: #0b7fb2;
+  --color-accent-700: #086a95;
+  --color-accent-900: #06374d;
+  --sb-track: #bfe3f4;
+  --sb-thumb: #7fb6d0;
+  --sb-thumb-hover: #5fa3c3;
+  --sb-thumb-active: #008fcb;
+}
+
+:root[data-theme="blue"] .scroll-dark {
+  --sb-track: rgb(255 255 255 / 0.14);
+  --sb-thumb: rgb(255 255 255 / 0.38);
+  --sb-thumb-hover: rgb(255 255 255 / 0.55);
+  --sb-thumb-active: #4db3dc;
+}
+
+/* Logo per theme. */
+.logo-blue {
+  display: none;
+}
+
+:root[data-theme="blue"] .logo-blue {
+  display: block;
+}
+
+:root[data-theme="blue"] .logo-green {
+  display: none;
+}
+
+/* Smooth colour change when switching themes. */
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition: background-color 0.35s, border-color 0.35s, color 0.35s, fill 0.35s !important;
+}
+
+/* Blue theme: white text on every solid brand-coloured surface (buttons, chips, message bubbles). */
+:root[data-theme="blue"] .bg-gold-400:not(:disabled),
+:root[data-theme="blue"] [class*="hover:bg-gold-400"]:hover:not(:disabled) {
+  color: #fff;
+}
+
+/* Blue theme: white circle behind the upload icon (blue arrow stays). */
+:root[data-theme="blue"] .upload-badge {
+  background: #fff;
+  box-shadow:
+    0 0 0 1px #d6eefa,
+    0 4px 14px rgb(0 143 203 / 0.22);
 }

@@ -1,18 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
-import {
-  AlertCircle,
-  ClipboardPaste,
-  FileSearch,
-  FileText,
-  Loader2,
-  RotateCcw,
-  Square,
-  Upload,
-  X,
-} from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import SourcePanel from "../SourcePanel";
+import Sidebar from "../Sidebar";
 import TopBar from "../TopBar";
 import CheckResultCard from "./CheckResultCard";
 import { STATUS, sortBySeverity } from "./status";
@@ -20,7 +12,6 @@ import {
   ApiError,
   CHECK_EXTENSIONS,
   CHECK_MAX_BYTES,
-  IS_MOCK,
   friendlyError,
   getMe,
   streamCheck,
@@ -34,6 +25,11 @@ import {
   type Me,
   type Source,
 } from "@/lib/types";
+
+const primaryBtn =
+  "inline-flex items-center gap-2 rounded-xl bg-gold-400 px-5 py-2.5 text-sm font-semibold text-zinc-950 shadow-sm transition hover:bg-gold-300 disabled:cursor-not-allowed disabled:bg-zinc-200 disabled:text-zinc-400 disabled:shadow-none";
+const secondaryBtn =
+  "inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-900 transition hover:border-zinc-500";
 
 type Mode = "file" | "text";
 type Phase = "input" | "running" | "done" | "error";
@@ -76,6 +72,8 @@ function checkError(e: unknown): string {
 }
 
 export default function CheckApp() {
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [me, setMe] = useState<Me | null>(null);
   useEffect(() => {
     getMe()
@@ -97,6 +95,7 @@ export default function CheckApp() {
   const [summary, setSummary] = useState<CheckSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sentName, setSentName] = useState<string>("");
+  const [filter, setFilter] = useState<CheckStatus | "all">("all");
 
   const [openSource, setOpenSource] = useState<Source | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -191,6 +190,7 @@ export default function CheckApp() {
     setFile(null);
     setFileError(null);
     setText("");
+    setFilter("all");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -229,239 +229,288 @@ export default function CheckApp() {
   const total = meta?.items_found ?? 0;
   const showResults = phase !== "input";
 
+  const visible = filter === "all" ? sorted : sorted.filter((it) => it.status === filter);
+
   return (
-    <div className="flex h-dvh overflow-hidden">
+    <div className="flex h-dvh overflow-hidden bg-zinc-950 md:p-3">
       <a
         href="#check-main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow"
       >
         Skip to content
       </a>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <TopBar me={me} />
+      <Sidebar
+        conversations={[]}
+        activeId={null}
+        loading={false}
+        error={null}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onNew={() => router.push("/")}
+        onSelect={() => {}}
+        onDelete={() => {}}
+      />
+      <div className={"flex min-w-0 flex-1 flex-col bg-[#f7f7f7] text-zinc-900 md:rounded-3xl"}>
+        <TopBar me={me} onOpenSidebar={() => setSidebarOpen(true)} title="Check a draft" />
 
         <div className="flex min-h-0 flex-1">
           <main id="check-main" className="min-h-0 min-w-0 flex-1 overflow-y-auto">
-            <div className="mx-auto w-full max-w-3xl px-3 py-6 sm:px-6">
-              <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Check a draft</h2>
-              <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400">{NOTE}</p>
+            <div className="mx-auto w-full max-w-[60rem] px-4 pt-6 pb-12 sm:px-8">
+              {!showResults ? (
+                <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_16rem]">
+                  <div>
+                    <h2 className="text-3xl font-semibold tracking-tight">Check a draft resolution</h2>
+                    <p className="mt-2 max-w-[60ch] text-[15px] leading-7 text-zinc-500">
+                      Add the draft agenda note or resolution. Each decision it proposes is compared with the
+                      resolutions in force in the minute book and the Synopsis register.
+                    </p>
 
-              {!showResults && (
-                <form
-                  className="mt-6 space-y-4"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    void run();
-                  }}
-                >
-                  <div role="radiogroup" aria-label="How to provide the draft" className="inline-flex rounded-lg bg-zinc-100 p-0.5 dark:bg-zinc-800">
-                    {(
-                      [
-                        { m: "file", label: "Upload a file", Icon: Upload },
-                        { m: "text", label: "Paste text", Icon: ClipboardPaste },
-                      ] as const
-                    ).map(({ m, label, Icon }) => (
-                      <button
-                        key={m}
-                        type="button"
-                        role="radio"
-                        aria-checked={mode === m}
-                        onClick={() => setMode(m)}
-                        className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm ${
-                          mode === m
-                            ? "bg-white font-medium text-accent-700 shadow-sm dark:bg-zinc-900 dark:text-accent-300"
-                            : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
-                        }`}
-                      >
-                        <Icon className="size-4" aria-hidden />
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-
-                  {mode === "file" ? (
-                    <div>
-                      <label
-                        htmlFor={`${ids}-file`}
-                        onDragOver={(e) => {
-                          e.preventDefault();
-                          setDragOver(true);
-                        }}
-                        onDragLeave={() => setDragOver(false)}
-                        onDrop={(e) => {
-                          e.preventDefault();
-                          setDragOver(false);
-                          pickFile(e.dataTransfer.files?.[0]);
-                        }}
-                        className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-10 text-center transition-colors focus-within:border-accent-500 focus-within:ring-2 focus-within:ring-accent-500/20 ${
-                          dragOver
-                            ? "border-accent-500 bg-accent-50 dark:bg-accent-900/20"
-                            : "border-zinc-300 bg-white hover:border-accent-300 hover:bg-accent-50/40 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-accent-500/60 dark:hover:bg-zinc-800"
-                        }`}
-                      >
-                        <Upload className="size-7 text-zinc-400" aria-hidden />
-                        <span className="text-sm font-medium">
-                          Drop the draft agenda or resolution here, or{" "}
-                          <span className="text-accent-700 underline dark:text-accent-300">choose a file</span>
-                        </span>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                          .docx, .pdf (incl. scanned), image or .txt · up to 10 MB
-                        </span>
-                        <input
-                          ref={fileInputRef}
-                          id={`${ids}-file`}
-                          type="file"
-                          accept={ACCEPT}
-                          className="sr-only"
-                          aria-describedby={fileError ? `${ids}-file-err` : undefined}
-                          onChange={(e) => pickFile(e.target.files?.[0])}
-                        />
-                      </label>
-                      {file && (
-                        <div className="mt-2 flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
-                          <FileText className="size-4 shrink-0 text-accent-600 dark:text-accent-400" aria-hidden />
-                          <span className="min-w-0 flex-1 truncate font-medium">{file.name}</span>
-                          <span className="shrink-0 text-xs text-zinc-500 tabular-nums">{formatBytes(file.size)}</span>
+                    <form
+                      className="mt-7 rounded-2xl border border-zinc-200 bg-white shadow-sm"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        void run();
+                      }}
+                    >
+                      <div role="tablist" aria-label="How to add the draft" className="flex gap-1 border-b border-zinc-100 p-2.5">
+                        {(
+                          [
+                            { m: "file", label: "Upload a file" },
+                            { m: "text", label: "Paste the text" },
+                          ] as const
+                        ).map(({ m, label }) => (
                           <button
+                            key={m}
                             type="button"
-                            onClick={() => {
-                              setFile(null);
-                              if (fileInputRef.current) fileInputRef.current.value = "";
-                            }}
-                            className="rounded p-1 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                            aria-label={`Remove ${file.name}`}
+                            role="tab"
+                            aria-selected={mode === m}
+                            onClick={() => setMode(m)}
+                            className={`rounded-xl px-4 py-1.5 text-sm transition ${
+                              mode === m ? "bg-gold-400 font-semibold text-zinc-950 shadow-sm" : "text-zinc-600 hover:bg-zinc-100"
+                            }`}
                           >
-                            <X className="size-4" aria-hidden />
+                            {label}
                           </button>
-                        </div>
-                      )}
-                      {fileError && (
-                        <p id={`${ids}-file-err`} role="alert" className="mt-2 text-sm text-red-700 dark:text-red-400">
-                          {fileError}
-                        </p>
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      <label htmlFor={`${ids}-text`} className="mb-1 block text-sm font-medium">
-                        Draft agenda or resolution text
-                      </label>
-                      <textarea
-                        id={`${ids}-text`}
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        rows={12}
-                        placeholder={"Paste the draft here, e.g.\n\nItem 5: To approve borrowing of Rs. 400 crore from Sample Bank Ltd…"}
-                        className="w-full resize-y rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-[15px] placeholder:text-zinc-400 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900"
-                      />
-                    </div>
-                  )}
+                        ))}
+                      </div>
 
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      type="submit"
-                      disabled={!canCheck}
-                      className="inline-flex items-center gap-2 rounded-lg bg-accent-600 px-4 py-2 text-sm font-medium text-white hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-zinc-300 dark:bg-accent-500 dark:hover:bg-accent-600 dark:disabled:bg-zinc-700"
-                    >
-                      <FileSearch className="size-4" aria-hidden />
-                      Check draft
-                    </button>
-                    {IS_MOCK && <span className="text-xs text-amber-700 dark:text-amber-400">(Demo data)</span>}
+                      <div className="p-5">
+                        {mode === "file" ? (
+                          <>
+                            {!file ? (
+                              <label
+                                htmlFor={`${ids}-file`}
+                                onDragOver={(e) => {
+                                  e.preventDefault();
+                                  setDragOver(true);
+                                }}
+                                onDragLeave={() => setDragOver(false)}
+                                onDrop={(e) => {
+                                  e.preventDefault();
+                                  setDragOver(false);
+                                  pickFile(e.dataTransfer.files?.[0]);
+                                }}
+                                className={`flex cursor-pointer items-center gap-4 rounded-xl border border-dashed px-5 py-6 focus-within:border-gold-500 ${
+                                  dragOver ? "border-gold-500 bg-gold-400/10" : "border-zinc-300 hover:border-gold-500"
+                                }`}
+                              >
+                                <FileText className="size-8 shrink-0 text-zinc-400" strokeWidth={1.25} aria-hidden />
+                                <span className="min-w-0 flex-1">
+                                  <span className="block text-[15px] text-zinc-900">Drop the file here, or choose one from your computer</span>
+                                  <span className="mt-0.5 block text-[13px] text-zinc-500">
+                                    Word, PDF (scanned is fine), an image or a text file, up to 10 MB
+                                  </span>
+                                </span>
+                                <span className="hidden shrink-0 rounded-xl border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-900 sm:block">
+                                  Choose file
+                                </span>
+                                <input
+                                  ref={fileInputRef}
+                                  id={`${ids}-file`}
+                                  type="file"
+                                  accept={ACCEPT}
+                                  className="sr-only"
+                                  aria-describedby={fileError ? `${ids}-file-err` : undefined}
+                                  onChange={(e) => pickFile(e.target.files?.[0])}
+                                />
+                              </label>
+                            ) : (
+                              <div className="flex items-center gap-4 rounded-xl border border-zinc-200 px-5 py-4">
+                                <FileText className="size-8 shrink-0 text-accent-700" strokeWidth={1.25} aria-hidden />
+                                <span className="min-w-0 flex-1">
+                                  <span className="block truncate text-[15px] font-medium text-zinc-900">{file.name}</span>
+                                  <span className="text-[13px] text-zinc-500 tabular-nums">{formatBytes(file.size)}</span>
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setFile(null);
+                                    if (fileInputRef.current) fileInputRef.current.value = "";
+                                  }}
+                                  className="text-sm text-zinc-500 underline decoration-zinc-300 underline-offset-[3px] hover:text-zinc-900"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            )}
+                            {fileError && (
+                              <p id={`${ids}-file-err`} role="alert" className="mt-2 text-sm text-breach">
+                                {fileError}
+                              </p>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <label htmlFor={`${ids}-text`} className="sr-only">
+                              Draft agenda or resolution text
+                            </label>
+                            <textarea
+                              id={`${ids}-text`}
+                              value={text}
+                              onChange={(e) => setText(e.target.value)}
+                              rows={11}
+                              placeholder="RESOLVED THAT the consent of the Board be and is hereby accorded to…"
+                              className="w-full resize-y rounded-xl border border-zinc-200 bg-white px-4 py-3 text-[15px] leading-7 placeholder:text-zinc-400 focus:border-gold-500 focus:ring-2 focus:ring-gold-400/20 focus:outline-none"
+                            />
+                          </>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-end gap-4 border-t border-zinc-200 px-5 py-3">
+                        <button type="submit" disabled={!canCheck} className={primaryBtn}>
+                          Check against the minutes
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                </form>
-              )}
 
-              {showResults && (
-                <section className="mt-6" aria-labelledby={`${ids}-results`}>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <FileText className="size-4 shrink-0 text-accent-600 dark:text-accent-400" aria-hidden />
-                    <h3
-                      id={`${ids}-results`}
-                      ref={resultsHeadingRef}
-                      tabIndex={-1}
-                      className="min-w-0 flex-1 truncate text-[15px] font-medium focus:outline-none"
-                    >
-                      {meta?.document || sentName}
-                    </h3>
-                    {phase === "running" ? (
-                      <button
-                        type="button"
-                        onClick={cancel}
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                  <aside className="text-[13.5px] leading-6 text-zinc-500 lg:pt-2">
+                    <h3 className="font-semibold text-zinc-900">What the check looks for</h3>
+                    <p className="mt-1.5">
+                      Approved limits on deposits, borrowing, derivatives, political contributions and remuneration;
+                      the latest resolution where an earlier one was revised; and earlier decisions on the same matter.
+                    </p>
+                    <h3 className="mt-5 font-semibold text-zinc-900">What you get back</h3>
+                    <dl className="mt-1.5 space-y-1.5">
+                      {CHECK_STATUS_ORDER.map((s) => (
+                        <div key={s}>
+                          <dt className={`inline font-medium ${STATUS[s].ink}`}>{STATUS[s].label}</dt>
+                          <dd className="inline">: {STATUS[s].hint.charAt(0).toLowerCase() + STATUS[s].hint.slice(1)}.</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p className="mt-5 border-t border-zinc-200 pt-4 text-xs">
+                      Results are for review by the Secretarial team. They are not a legal or compliance opinion.
+                    </p>
+                  </aside>
+                </div>
+              ) : (
+                <section aria-labelledby={`${ids}-results`}>
+                  <div className="flex flex-wrap items-start gap-4">
+                    <div className="min-w-0 flex-1">
+                      <h2
+                        id={`${ids}-results`}
+                        ref={resultsHeadingRef}
+                        tabIndex={-1}
+                        className="truncate text-2xl font-semibold tracking-tight focus:outline-none"
                       >
-                        <Square className="size-3.5 fill-current" aria-hidden /> Cancel
+                        {meta?.document || sentName}
+                      </h2>
+                      <p className="mt-1.5 max-w-[70ch] text-[15px] leading-7 text-zinc-500">
+                        <Verdict phase={phase} meta={meta} counts={counts} done={items.length} />
+                      </p>
+                    </div>
+                    {phase === "running" ? (
+                      <button type="button" onClick={cancel} className={secondaryBtn}>
+                        Stop
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        onClick={reset}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-accent-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-accent-700 dark:bg-accent-500 dark:hover:bg-accent-600"
-                      >
-                        <RotateCcw className="size-4" aria-hidden /> Check another draft
+                      <button type="button" onClick={reset} className={secondaryBtn}>
+                        Check another draft
                       </button>
                     )}
                   </div>
 
-                  <Progress phase={phase} meta={meta} done={items.length} total={total} />
+                  {phase === "running" && (
+                    <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-zinc-200" role="progressbar" aria-label="Check progress" aria-valuemin={0} aria-valuemax={total || undefined} aria-valuenow={meta ? items.length : undefined}>
+                      <div
+                        className={`h-full bg-gold-400 transition-[width] duration-500 ${meta ? "" : "w-1/5 animate-pulse"}`}
+                        style={meta ? { width: `${total ? Math.round((items.length / total) * 100) : 0}%` } : undefined}
+                      />
+                    </div>
+                  )}
 
                   {meta?.read_with === "ocr" && (
-                    <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
-                      This draft is a scanned or image-only file and was read with OCR. Check the amounts and names in
-                      the proposed items against the draft.
+                    <p className="mt-4 border-l-2 border-revision bg-white px-4 py-2.5 text-sm text-zinc-900">
+                      This draft is a scanned or image-only file and was read with OCR. Confirm the amounts and names
+                      against the draft before relying on them.
                     </p>
                   )}
 
-                  {(items.length > 0 || summary) && <SummaryBar counts={counts} />}
-
                   {error && (
-                    <p
-                      role="alert"
-                      className="mt-4 flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-300"
-                    >
-                      <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
+                    <p role="alert" className="mt-4 border-l-2 border-breach bg-white px-4 py-2.5 text-sm text-zinc-900">
                       {error}
                     </p>
                   )}
 
+                  {(items.length > 0 || pending.length > 0) && (
+                    <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                      {items.length > 0 && (
+                        <div role="tablist" aria-label="Show results" className="flex gap-1 overflow-x-auto border-b border-zinc-100 p-2.5 whitespace-nowrap">
+                          {(["all", ...CHECK_STATUS_ORDER] as const).map((s) => {
+                            const n = s === "all" ? items.length : counts[s] ?? 0;
+                            if (s !== "all" && n === 0) return null;
+                            const active = filter === s;
+                            return (
+                              <button
+                                key={s}
+                                type="button"
+                                role="tab"
+                                aria-selected={active}
+                                onClick={() => setFilter(s)}
+                                className={`rounded-xl px-3 py-1.5 text-[13.5px] transition ${
+                                  active ? "bg-zinc-900 font-semibold text-white" : "text-zinc-600 hover:bg-zinc-100"
+                                }`}
+                              >
+                                {s === "all" ? "All items" : STATUS[s].label}{" "}
+                                <span className="font-normal opacity-60 tabular-nums">{n}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      <ol className="divide-y divide-zinc-100" aria-label="Results" aria-live="polite" aria-relevant="additions">
+                        {visible.map((it) => (
+                          <li key={it.id}>
+                            <CheckResultCard item={it} selectedSourceId={openSource?.id ?? null} onOpenSource={setOpenSource} />
+                          </li>
+                        ))}
+                        {filter === "all" &&
+                          pending.map((p, i) => (
+                            <li
+                              key={`p-${i}-${p}`}
+                              className="grid gap-x-8 px-6 py-5 text-zinc-500 sm:grid-cols-[9.5rem_minmax(0,1fr)]"
+                            >
+                              <span className="flex items-center gap-1.5 text-[13px]">
+                                <Loader2 className="size-4 animate-spin" aria-hidden /> Checking
+                              </span>
+                              <span className=" text-[16px] leading-7">{p}</span>
+                            </li>
+                          ))}
+                      </ol>
+                    </div>
+                  )}
+
                   {phase === "done" && meta && meta.items_found === 0 && (
-                    <p className="mt-4 rounded-xl border border-dashed border-zinc-300 px-4 py-3 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
-                      No proposed decisions were found in this draft. Check that it contains agenda items or
-                      resolutions (e.g. &ldquo;RESOLVED THAT…&rdquo;).
+                    <p className="mt-6 rounded-2xl border border-zinc-200 bg-white px-6 py-6 text-[15px] text-zinc-500">
+                      No proposed decisions were found. A draft should contain agenda items or resolutions, for example
+                      text beginning &ldquo;RESOLVED THAT&rdquo;.
                     </p>
                   )}
 
-                  <ol className="mt-4 space-y-3" aria-label="Results" aria-live="polite" aria-relevant="additions">
-                    {sorted.map((it, i) => (
-                      <li key={it.id}>
-                        <CheckResultCard
-                          item={it}
-                          index={i}
-                          selectedSourceId={openSource?.id ?? null}
-                          onOpenSource={setOpenSource}
-                        />
-                      </li>
-                    ))}
-                  </ol>
-
-                  {pending.length > 0 && (
-                    <ul className="mt-3 space-y-2" aria-label="Still checking">
-                      {pending.map((p, i) => (
-                        <li
-                          key={`${i}-${p}`}
-                          className="flex items-start gap-2 rounded-xl border border-dashed border-zinc-300 px-4 py-3 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
-                        >
-                          <Loader2 className="mt-0.5 size-4 shrink-0 animate-spin" aria-hidden />
-                          <span className="min-w-0">
-                            <span className="sr-only">Checking: </span>
-                            {p}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
                   {phase !== "running" && items.length > 0 && (
-                    <p className="mt-6 text-center text-xs text-zinc-500 dark:text-zinc-400">{NOTE}</p>
+                    <p className="mt-5 text-xs leading-5 text-zinc-500">{NOTE}</p>
                   )}
                 </section>
               )}
@@ -475,64 +524,22 @@ export default function CheckApp() {
   );
 }
 
-function Progress({
-  phase,
-  meta,
-  done,
-  total,
-}: {
-  phase: Phase;
-  meta: CheckMeta | null;
-  done: number;
-  total: number;
-}) {
-  if (phase !== "running") return null;
-  const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+/** The report's opening sentence: what was found, in words. */
+function Verdict({ phase, meta, counts, done }: { phase: Phase; meta: CheckMeta | null; counts: CheckSummary; done: number }) {
+  if (!meta) return <>Reading the draft and finding the decisions it proposes…</>;
+  const n = meta.items_found;
+  const source = meta.read_with === "ocr" ? "a scanned copy" : "the document";
+  if (phase === "running") return <>Read {n} proposed decision{n === 1 ? "" : "s"} from {source}. Checked {done} so far.</>;
+  const parts: string[] = [];
+  if (counts.conflict) parts.push(`${counts.conflict} conflict${counts.conflict === 1 ? "s" : ""} with a decision in force`);
+  if (counts.changes_limit) parts.push(`${counts.changes_limit} change${counts.changes_limit === 1 ? "s" : ""} an approved limit`);
+  if (counts.needs_review) parts.push(`${counts.needs_review} need${counts.needs_review === 1 ? "s" : ""} a closer look`);
+  const clear = counts.within_limit + counts.no_conflict + counts.no_limit_found;
+  if (clear) parts.push(`${clear} raise${clear === 1 ? "s" : ""} no issue`);
+  const list = parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}` : parts[0] ?? "";
   return (
-    <div className="mt-3" role="status" aria-live="polite">
-      <p className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-        <Loader2 className="size-4 animate-spin" aria-hidden />
-        {meta
-          ? `Found ${meta.items_found} proposed item${meta.items_found === 1 ? "" : "s"} · checked ${done} of ${total}`
-          : "Reading the draft…"}
-      </p>
-      <div
-        className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800"
-        role="progressbar"
-        aria-label="Check progress"
-        aria-valuemin={0}
-        aria-valuemax={total || undefined}
-        aria-valuenow={meta ? done : undefined}
-      >
-        {meta ? (
-          <div className="h-full rounded-full bg-accent-500 transition-[width] duration-300" style={{ width: `${pct}%` }} />
-        ) : (
-          <div className="h-full w-1/3 animate-pulse rounded-full bg-accent-400/70" />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function SummaryBar({ counts }: { counts: CheckSummary }) {
-  return (
-    <ul className="mt-4 flex flex-wrap gap-2" aria-label="Summary by status">
-      {CHECK_STATUS_ORDER.map((s) => {
-        const st = STATUS[s];
-        const n = counts[s] ?? 0;
-        return (
-          <li
-            key={s}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
-              n > 0 ? st.chip : "border-zinc-200 text-zinc-400 dark:border-zinc-800 dark:text-zinc-500"
-            }`}
-          >
-            <st.Icon className="size-3.5" aria-hidden />
-            <span className="tabular-nums">{n}</span>
-            <span>{st.label}</span>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      {n} proposed decision{n === 1 ? "" : "s"} read from {source}. {list ? `${list.charAt(0).toUpperCase()}${list.slice(1)}.` : ""}
+    </>
   );
 }

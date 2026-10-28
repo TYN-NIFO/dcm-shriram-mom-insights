@@ -6,6 +6,7 @@ import type {
   Conversation,
   ConversationSummary,
   Me,
+  RegisterSheet,
   Source,
 } from "./types";
 
@@ -89,6 +90,11 @@ export async function deleteConversation(id: string): Promise<void> {
 
 export async function fetchPageImage(url: string, signal?: AbortSignal): Promise<Blob> {
   return (await request(url, { signal })).blob();
+}
+
+/** GET a register sheet (Synopsis of Minutes topic tab) from a source's `register_url`. */
+export async function getRegisterSheet(url: string, signal?: AbortSignal): Promise<RegisterSheet> {
+  return (await request(url, { signal })).json();
 }
 
 export interface ChatStreamHandlers {
