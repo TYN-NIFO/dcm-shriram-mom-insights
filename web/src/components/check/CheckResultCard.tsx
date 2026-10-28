@@ -44,7 +44,7 @@ function Finding({
             key={i}
             type="button"
             onClick={() => onOpenSource(src)}
-            className="mx-0.5 rounded bg-zinc-100 px-1 align-baseline text-xs font-semibold text-accent-700 hover:bg-accent-50 hover:underline dark:bg-zinc-800 dark:text-accent-300 dark:hover:bg-zinc-700"
+            className="mx-0.5 rounded bg-gold-400 px-1.5 align-baseline text-xs font-bold text-zinc-950 transition hover:bg-zinc-950 hover:text-gold-400"
             aria-label={`Open governing decision ${m[1]}`}
           >
             {p}
@@ -61,7 +61,7 @@ export default function CheckResultCard({ item, index, selectedSourceId, onOpenS
   return (
     <article
       aria-labelledby={headingId}
-      className={`rounded-xl border border-l-4 border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 ${st.stripe}`}
+      className={`rounded-2xl border border-l-4 border-zinc-200 bg-white px-5 py-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg ${st.stripe}`}
     >
       <div className="flex flex-wrap items-start gap-x-3 gap-y-1.5">
         <StatusChip status={item.status} />
@@ -76,7 +76,7 @@ export default function CheckResultCard({ item, index, selectedSourceId, onOpenS
       </h3>
 
       {item.comparison && (
-        <p className="mt-2 flex items-start gap-2 rounded-md bg-zinc-100 px-3 py-2 text-sm font-semibold text-zinc-900 tabular-nums dark:bg-zinc-800 dark:text-zinc-100">
+        <p className="mt-2 flex items-start gap-2 rounded-xl bg-gold-400/25 px-3 py-2.5 text-sm font-semibold text-zinc-950 tabular-nums">
           <Scale className="mt-0.5 size-4 shrink-0 text-zinc-500 dark:text-zinc-400" aria-hidden />
           <span>{item.comparison}</span>
         </p>

@@ -1,12 +1,4 @@
-import {
-  CircleCheck,
-  CircleCheckBig,
-  CircleDashed,
-  CircleX,
-  TrendingUp,
-  TriangleAlert,
-  type LucideIcon,
-} from "lucide-react";
+import { CircleCheck, CircleCheckBig, CircleDashed, CircleX, TrendingUp, TriangleAlert, type LucideIcon } from "lucide-react";
 import { CHECK_STATUS_ORDER, type CheckItem, type CheckStatus } from "@/lib/types";
 
 export interface StatusStyle {

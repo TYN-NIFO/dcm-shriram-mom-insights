@@ -1,4 +1,3 @@
-import { BookOpen, FileText } from "lucide-react";
 import { formatDate, formatPages } from "@/lib/format";
 import type { Source } from "@/lib/types";
 
@@ -39,24 +38,22 @@ export default function Sources({
                 type="button"
                 onClick={() => onOpen(s)}
                 aria-pressed={selected}
-                className={`flex h-full w-full items-start gap-2.5 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors ${
+                className={`flex h-full w-full items-start gap-2.5 rounded-lg border px-3 py-2.5 text-left text-sm transition duration-200 ${
                   selected
                     ? "border-accent-400 bg-accent-50 dark:border-accent-500 dark:bg-accent-900/30"
-                    : "border-zinc-200 bg-white hover:border-accent-300 hover:bg-accent-50/50 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-accent-500/60 dark:hover:bg-zinc-800"
+                    : "border-zinc-200 bg-white hover:-translate-y-0.5 hover:border-gold-400 hover:shadow-md active:translate-y-0 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-accent-500/60 dark:hover:bg-zinc-800"
                 }`}
               >
-                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded bg-zinc-100 text-[11px] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded bg-gold-400 text-[11px] font-bold text-zinc-950">
                   {i + 1}
                 </span>
                 <span className="min-w-0 flex-1">
                   {synopsis ? (
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <BookOpen className="size-3.5 shrink-0 text-accent-600 dark:text-accent-400" aria-hidden />
+                    <span className="flex items-center font-medium">
                       <span className="truncate">Synopsis of Minutes · {s.topic || s.title}</span>
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <FileText className="size-3.5 shrink-0 text-accent-600 dark:text-accent-400" aria-hidden />
+                    <span className="flex items-center font-medium">
                       <span className="truncate">
                         {s.body} · {formatDate(s.meeting_date)}
                       </span>
