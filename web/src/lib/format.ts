@@ -33,6 +33,18 @@ export function citationText(s: Source): string {
   return parts.join(" · ");
 }
 
+/** Citation written out as a sentence: "Board minutes, 6 May 2024, item 3.4.4, page 2310". */
+export function citeLong(s: Source): string {
+  if (s.source_type === "synopsis") {
+    const topic = (s.topic || "").split(" / ")[0];
+    return [`Synopsis of Minutes${topic ? `, ${topic}` : ""}`, s.item && `resolution ${s.item}`, s.meeting_date && formatDate(s.meeting_date)]
+      .filter(Boolean)
+      .join(", ");
+  }
+  const pages = s.pages.length ? formatPages(s.pages).replace(/^pp?\. /, s.pages.length > 1 ? "pages " : "page ") : "";
+  return [`${s.body} minutes, ${formatDate(s.meeting_date)}`, `item ${s.item}`, pages].filter(Boolean).join(", ");
+}
+
 export function relativeDay(iso: string, now = new Date()): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";

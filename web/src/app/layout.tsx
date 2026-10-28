@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "DCM MoM Insights",
   description: "Ask questions about Board and Committee minutes. Every answer cites the minute-book page.",
   robots: { index: false, follow: false },
+  icons: { icon: "/brand/dcm-shriram-mark.png" },
 };
 
 export const viewport: Viewport = {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("mom-theme");if(t==="blue"){document.documentElement.dataset.theme="blue";var f=function(){document.querySelectorAll('link[rel~="icon"]').forEach(function(l){l.href="/icon-blue.png"})};f();document.addEventListener("DOMContentLoaded",f)}}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("mom-theme");if(t==="blue"){document.documentElement.dataset.theme="blue";var f=function(){document.querySelectorAll('link[rel~="icon"]').forEach(function(l){l.href="/brand/dcm-shriram-mark.png"})};f();document.addEventListener("DOMContentLoaded",f)}}catch(e){}`,
           }}
         />
       </head>

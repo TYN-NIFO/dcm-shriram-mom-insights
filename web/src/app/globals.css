@@ -17,6 +17,19 @@
   --color-gold-300: #e4ff6e;
   --color-gold-400: #ccff00;
   --color-gold-500: #9fc400;
+
+  /* Minute-book palette for the source and check views. */
+  --font-ui: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-text: "Source Serif 4", Georgia, serif;
+  --color-ink: #1c2430;
+  --color-folio: #f4f5f7;
+  --color-rule: #d9dde3;
+  --color-minute: #1f4e8c;
+  --color-minute-50: #eef3fa;
+  --color-breach: #a4161a;
+  --color-revision: #9a5b00;
+  --color-clear: #2e6b3f;
+  --color-note: #5c6675;
 }
 
 :root {

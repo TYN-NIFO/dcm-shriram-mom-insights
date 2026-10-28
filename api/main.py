@@ -150,6 +150,12 @@ def public(m):
 MAX_UPLOAD = 10 * 1024 * 1024
 
 
+def refuse(reason, message):
+    """A 400 for the check upload, logged with the reason (the browser only shows the message)."""
+    print("check refused:", reason, flush=True)
+    return HTTPException(400, message)
+
+
 @app.post("/check")
 async def check_draft(request: Request, file: UploadFile | None = File(None), text: str | None = Form(None)):
     """Check a draft agenda / resolution (upload .docx, PDF - scanned ones are OCR'd -, image or .txt, or pasted text)
@@ -157,17 +163,17 @@ async def check_draft(request: Request, file: UploadFile | None = File(None), te
     draft, name, how = (text or "").strip(), "pasted text", "text"
     if file is not None and file.filename:
         if not file.filename.lower().endswith((".docx", ".pdf", ".txt") + C.IMAGES):
-            raise HTTPException(400, "Upload a Word (.docx), PDF, image (PNG, JPG, TIFF) or text file")
+            raise refuse(f"unsupported file type: {file.filename}", "Upload a Word (.docx), PDF, image (PNG, JPG, TIFF) or text file")
         data = await file.read()
         if len(data) > MAX_UPLOAD:
-            raise HTTPException(400, "File is larger than 10 MB")
+            raise refuse(f"file too large: {len(data)} bytes", "File is larger than 10 MB")
         try:
             (draft, how), name = await C.read_draft(file.filename, data), file.filename
         except Exception as e:
             print("read error:", type(e).__name__, str(e)[:300])
-            raise HTTPException(400, "Could not read the file")
+            raise refuse(f"could not read {file.filename}: {type(e).__name__}", "Could not read the file")
     if len(draft) < 20:
-        raise HTTPException(400, "No readable text was found in the draft")
+        raise refuse(f"no readable text in {name} ({len(draft)} chars, read with {how})", "No readable text was found in the draft")
     check_id = "chk_" + uuid.uuid4().hex[:12]
 
     async def stream():
@@ -222,6 +228,49 @@ def delete_conversation(cid: str):
     if conversations.pop(cid, None) is None:
         raise HTTPException(404, "Conversation not found")
     return Response(status_code=204)
+
+
+REGISTER = Path(__file__).resolve().parents[2] / "01_Client_Inputs" / "Synopsis of Minutes updated upto26.10.2012 - Being updated.xls"
+_workbook = None
+
+
+def workbook():
+    """DCM's Synopsis of Minutes workbook, opened read-only once (xlrd never writes)."""
+    global _workbook
+    if _workbook is None:
+        import xlrd
+        _workbook = xlrd.open_workbook(str(REGISTER), on_demand=True)
+    return _workbook
+
+
+def cell_text(c):
+    v = c.value
+    if isinstance(v, float):
+        return str(int(v)) if v.is_integer() else str(v)
+    return str(v).strip()
+
+
+@app.get("/register")
+def register_sheet(row: str):
+    """The Excel sheet (topic tab) of the Synopsis of Minutes that holds a register entry: its cells as they are in
+    DCM's workbook, with the cited row's Excel row number. The workbook is only read."""
+    if row not in P.synd:
+        raise HTTPException(404, "Register entry not found")
+    name, idx = row[len("syn:"):].rsplit(":", 1)
+    wb = workbook()
+    if name not in wb.sheet_names():
+        raise HTTPException(404, "Register sheet not found")
+    sh = wb.sheet_by_name(name)
+    cells = [[cell_text(c) for c in sh.row(r)] for r in range(sh.nrows)]
+    ncols = max((i + 1 for r in cells for i, v in enumerate(r) if v and not v.startswith("#Index!")), default=1)
+    return {"workbook": REGISTER.name, "sheet": name, "sheet_count": wb.nsheets, "company": P.COMPANY,
+            "cited_row": int(idx) + 1, "rows": [r[:ncols] for r in cells]}
+
+
+@app.get("/register/file")
+def register_file():
+    """DCM's workbook itself, for opening in Excel (a copy is downloaded; the original is untouched)."""
+    return FileResponse(REGISTER, media_type="application/vnd.ms-excel", filename=REGISTER.name)
 
 
 @app.get("/pages/{page}.png")

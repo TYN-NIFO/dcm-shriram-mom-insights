@@ -8,6 +8,17 @@ interface Props {
   onOpenSource: (s: Source) => void;
 }
 
+
+/**
+ * Answer text as shown: source markers ([S1], [S1, S2]) removed, since the sources are listed under the answer,
+ * and a list written inline as "1) ... 2) ..." split onto separate lines.
+ */
+function readable(text: string): string {
+  let t = text.replace(/\s*\[S?\d+(?:\s*,\s*S?\d+)*\]/g, "");
+  if ((t.match(/(?:^|\s)\d+\)\s/g) ?? []).length >= 2) t = t.replace(/(?:^|\s)(\d+)\)\s/g, "\n$1. ");
+  return t.trim();
+}
+
 export default function MessageView({ message: m, selectedSourceId, onOpenSource }: Props) {
   if (m.role === "user") {
     return (
@@ -47,7 +58,7 @@ export default function MessageView({ message: m, selectedSourceId, onOpenSource
             </p>
           ) : (
             <div className={streaming ? "caret" : undefined}>
-              <Markdown text={m.content} />
+              <Markdown text={readable(m.content)} />
             </div>
           )}
           {m.status === "stopped" && (

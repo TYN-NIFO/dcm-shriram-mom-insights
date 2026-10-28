@@ -9,9 +9,9 @@ const OPTIONS: { value: Theme; label: string; swatch: string }[] = [
   { value: "blue", label: "DCM blue", swatch: "#008fcb" },
 ];
 
-/** Points the browser-tab icon at the green or blue version. */
-function setTabIcon(t: Theme) {
-  const href = t === "blue" ? "/icon-blue.png" : "/icon.png";
+/** Points the browser-tab icon at the DCM Shriram mark (same in both themes). */
+function setTabIcon() {
+  const href = "/brand/dcm-shriram-mark.png";
   const links = document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]');
   if (links.length) links.forEach((l) => (l.href = href));
   else {
@@ -29,12 +29,12 @@ export default function ThemeSwitch() {
   useEffect(() => {
     const t: Theme = document.documentElement.dataset.theme === "blue" ? "blue" : "green";
     setTheme(t);
-    setTabIcon(t); // Next re-adds its own icon link on navigation, so re-apply on mount
+    setTabIcon(); // Next re-adds its own icon link on navigation, so re-apply on mount
   }, []);
 
   const choose = (t: Theme) => {
     setTheme(t);
-    setTabIcon(t);
+    setTabIcon();
     const root = document.documentElement;
     root.classList.add("theme-fade");
     if (t === "blue") root.dataset.theme = "blue";

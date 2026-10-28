@@ -14,6 +14,7 @@ Plain REST over httpx; no SDK or framework.
 import json
 import re
 from pathlib import Path
+from urllib.parse import quote
 
 import httpx
 from dotenv import dotenv_values
@@ -232,14 +233,16 @@ did not ask about.
 source and say as of which meeting; the most recent meeting in the archive is on {latest}.
 - Cite the source after every fact as [S1], [S2] ...
 - If the sources do not answer the question, set "found" to false and "answer" to "Not found in the minutes."
-- For a question asking for a list, give every matching item found in the sources, one per line, each with its \
-meeting date and citation, newest first. For a broad question ("tell me about X"), summarise the main decisions \
+- For a question asking for a list, give every matching item found in the sources, newest first, as Markdown \
+bullet lines: start each item on a new line with "- " (a "\\n" in the JSON string), never as "1) ... 2) ..." in one \
+paragraph. Each item: the meeting date, then the decision in a few words, then its citation. For a broad question ("tell me about X"), summarise the main decisions \
 about X, most recent first; ignore incidental mentions (such as the place where a meeting was held).
 - A different or merely related matter (a related topic, a different kind of approval, or a different company) does not answer the question: if you would have to say "not explicitly", "however" or "no specific", set "found" to false.
 - Never add up or convert amounts yourself. Whenever the question asks for a total, a sum, a combined figure or to \
 add amounts up, list each amount in the answer and also return each one in "amounts" (value and unit, per share \
 amounts in rupees); the total is calculated for you. If a source already states the total, quote it instead.
-- Be brief: one to four sentences, or the list.
+- Be brief: one to four sentences, or the list. Write dates as "5 May 2025", not "2025-05-05". Leave out details \
+the question did not ask for, such as the number of shares a dividend is paid on.
 Return JSON: {"found": true or false, "answer": "...", "citations": ["S1", ...],
               "amounts": [{"what": "...", "value": number, "unit": "crore" | "lakh" | "rupees"}]  (only for totals, else [])}"""
 
@@ -402,8 +405,9 @@ async def answer_stream(u, docs, history):
 def source_json(d, n):
     if d.get("source") == "synopsis":
         return {"id": f"src_{n}", "source_type": "synopsis", "company": COMPANY, "body": BODY, "meeting_date": d["date"],
-                "item": d["res_no"], "title": d["text"].split("\n", 1)[-1][:160], "pages": [], "page_image_urls": [],
-                "topic": d["topic"] + (f" / {d['section']}" if d.get("section") else "")}
+                "item": d["res_no"], "title": " ".join(d["text"].split("\n", 1)[-1].split())[:700], "pages": [], "page_image_urls": [],
+                "topic": d["topic"] + (f" / {d['section']}" if d.get("section") else ""),
+                "register_url": f"/register?row={quote(d['id'])}"}
     pages = pages_of(d)
     return {"id": f"src_{n}", "source_type": "minutes", "company": COMPANY, "body": BODY, "meeting_date": d["meeting"],
             "item": d["item"], "title": d.get("title", ""), "pages": pages,

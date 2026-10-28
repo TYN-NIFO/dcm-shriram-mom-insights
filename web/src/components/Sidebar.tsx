@@ -89,11 +89,16 @@ export default function Sidebar({
         } ${open ? "translate-x-0" : "invisible -translate-x-full md:visible"}`}
       >
         <div className={`flex items-center gap-2.5 px-2 pb-4 ${collapsed ? "md:flex-col md:gap-3 md:px-0" : ""}`}>
+          {/* DCM Shriram's own logo (white, for dark backgrounds) from dcmshriram.com; the diamond mark when collapsed. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="" className="logo-green size-10 shrink-0" />
+          <img src="/brand/dcm-shriram-logo-white.svg" alt="DCM Shriram" className={`h-12 w-auto shrink-0 ${hc}`} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-blue.png" alt="" className="logo-blue size-10 shrink-0" />
-          <p className={`min-w-0 flex-1 truncate text-lg font-semibold text-white ${hc}`}>DCM</p>
+          <img
+            src="/brand/dcm-shriram-mark.png"
+            alt="DCM Shriram"
+            className={`size-10 shrink-0 ${collapsed ? "hidden md:block" : "hidden"}`}
+          />
+          <span className="flex-1" />
           <button
             type="button"
             onClick={() => setCollapsed((v) => !v)}
